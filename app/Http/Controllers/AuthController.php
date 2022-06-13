@@ -41,16 +41,6 @@ class AuthController extends Controller
     }
 
     /**
-     * Get the authenticated User.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function me()
-    {
-        return response()->json(auth()->user());
-    }
-
-    /**
      * Log the user out (Invalidate the token).
      *
      * @return \Illuminate\Http\JsonResponse
@@ -90,9 +80,18 @@ class AuthController extends Controller
 
     public function index() 
     {
-        $user = User::with(
-        'TipoUsuario',
-        )->where(['estado' => 'ACTIVO'])->get();
+        $user = User::select(
+            'nombre', 
+            'apellido', 
+            'email', 
+            'estado'
+        )->with(
+            'TipoUsuario',
+            'UsuarioCreador',
+            'UsuarioModificador'
+        )->where(
+            ['estado' => 'ACTIVO']
+        )->get();
 
         return response()->json(compact('user'), 200);
     }
@@ -102,12 +101,12 @@ class AuthController extends Controller
         $usuario = auth()->user();
 
         $validator = Validator::make($request->all(), [
-            "nombre" => "required|string|max:100",
+            "nombre"   => "required|string|max:100",
             "apellido" => "required|string|max:100",
-            "email" => "required|string|email|max:100|unique:users",
+            "email"    => "required|string|email|max:100|unique:users",
             "password" => "required|string|min:6|max:12|regex:/[a-z]/|regex:/[A-Z]/|regex:/[0-9]/|regex:/[@$!%*#?&.]/",
-            "estado" => "string|in:ACTIVO,INACTIVO",
-            "id_tipo" => "integer",
+            "estado"   => "string|in:ACTIVO,INACTIVO",
+            "id_tipo"  => "integer",
         ]);
 
         if ($validator->fails()) {
@@ -130,7 +129,21 @@ class AuthController extends Controller
 
     public function show($id)
     {
-        $user = User::find($id);
+        $user = User::select(
+            'nombre', 
+            'apellido', 
+            'email',
+            'password', 
+            'estado',
+            'created_at',
+            'updated_at'
+        )->with(
+            'TipoUsuario',
+            'UsuarioCreador',
+            'UsuarioModificador'
+        )->where(
+            ['id' => $id]
+        )->get();
 
         return response()->json(compact('user'), 200);
     }
@@ -140,11 +153,11 @@ class AuthController extends Controller
         $usuario = auth()->user();
 
         $validator = Validator::make($request->all(), [
-            "nombre" => "string|max:100",
+            "nombre"   => "string|max:100",
             "apellido" => "string|max:100",
-            "email" => "string|email|max:100",
-            "estado" => "string|in:ACTIVO,INACTIVO",
-            "id_tipo" => "integer",
+            "email"    => "string|email|max:100",
+            "estado"   => "string|in:ACTIVO,INACTIVO",
+            "id_tipo"  => "integer",
         ]);
 
         if ($validator->fails()) {
@@ -161,7 +174,6 @@ class AuthController extends Controller
         $request->usuario_creacion == null ? $user->usuario_creacion = 1 : $user->usuario_creacion = $usuario->id;
         $request->usuario_modificacion == null ? $user->usuario_modificacion = 1 : $user->usuario_modificacion = $usuario->id;
         $request->id_tipo == null ? $user->id_tipo = $user->id_tipo : $user->id_tipo = $request->id_tipo;
-
         $user->update();
 
         return response()->json(compact('user'),200);

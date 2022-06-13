@@ -9,37 +9,50 @@ class Municipio extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nombre', 'usuario_creacion', 'usuario_modificacion'];
+    protected $fillable = [
+        'nombre',
+        'estado', 
+        'usuario_creacion', 
+        'usuario_modificacion'
+    ];
 
-    public function UsuarioCreador() {
+    public function UsuarioCreador() 
+    {
         return $this->belongsTo(User::class, 'usuario_creacion');
     }
 
-    public function UsuarioModificador() {
+    public function UsuarioModificador() 
+    {
         return $this->belongsTo(User::class, 'usuario_modificacion');
     }
 
-    public function Hospedaje() {
+    public function Hospedaje() 
+    {
     	return $this->hasMany(Hospedaje::class, 'id_municipio');
     }
 
-    public function Alimento() {
+    public function Alimento() 
+    {
     	return $this->hasMany(Alimento::class, 'id_municipio');
     }
 
-    public function Recreacion() {
+    public function Recreacion() 
+    {
     	return $this->hasMany(Recreacion::class, 'id_municipio');
     }
 
-    public function Transporte() {
+    public function Transporte() 
+    {
     	return $this->hasMany(Transporte::class, 'id_municipio');
     }
 
-    public function AtractivoCultural() {
+    public function AtractivoCultural() 
+    {
     	return $this->hasMany(AtractivoCultural::class, 'id_municipio');
     }
 
-    public function AtractivoNatural() {
+    public function AtractivoNatural() 
+    {
     	return $this->hasMany(AtractivoNatural::class, 'id_municipio');
     }
 }

@@ -10,7 +10,11 @@ class AtractivoCulturalController extends Controller
 {
     public function index()
     {
-        $cultural = AtractivoCultural::with(
+        $hospedaje = AtractivoCultural::select(
+            'nombre',
+            'direccion',
+            'estado',
+        )->with(
             'UsuarioCreador',
             'UsuarioModificador',
             'Municipio',
@@ -24,9 +28,9 @@ class AtractivoCulturalController extends Controller
         $usuario = auth()->user();
 
         $validator = Validator::make($request->all(), [
-            "nombre" => "required|string|unique:atractivo_culturals",
-            "direccion" => "string|max:1000",
-            "estado" => "string|in:ACTIVO,INACTIVO",
+            "nombre"       => "required|string|unique:atractivo_culturals",
+            "direccion"    => "string|max:1000",
+            "estado"       => "string|in:ACTIVO,INACTIVO",
             "id_municipio" => "integer",
         ]);
 
@@ -48,11 +52,15 @@ class AtractivoCulturalController extends Controller
 
     public function show($id)
     {
-        $cultural = AtractivoCultural::with(
+        $hospedaje = AtractivoCultural::select(
+            'nombre',
+            'direccion',
+            'estado',
+        )->with(
             'UsuarioCreador',
             'UsuarioModificador',
-            'Municipio', 
-        )->find($id);
+            'Municipio',
+        )->where(['estado' => $id])->get();
 
         return response()->json(compact('cultural'), 200);
     }
@@ -62,9 +70,9 @@ class AtractivoCulturalController extends Controller
         $usuario = auth()->user();
 
         $validator = Validator::make($request->all(), [
-            "nombre" => "string",
-            "direccion" => "string|max:1000",
-            "estado" => "string|in:ACTIVO,INACTIVO",
+            "nombre"       => "string",
+            "direccion"    => "string|max:1000",
+            "estado"       => "string|in:ACTIVO,INACTIVO",
             "id_municipio" => "integer",
         ]);
 

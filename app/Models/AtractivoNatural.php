@@ -9,17 +9,27 @@ class AtractivoNatural extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nombre', 'direccion', 'estado', 'usuario_creacion', 'usuario_modificacion', 'id_municipio'];
+    protected $fillable = [
+        'nombre', 
+        'direccion', 
+        'estado', 
+        'usuario_creacion', 
+        'usuario_modificacion', 
+        'id_municipio'
+    ];
 
-    public function UsuarioCreador() {
+    public function UsuarioCreador() 
+    {
         return $this->belongsTo(User::class, 'usuario_creacion');
     }
 
-    public function UsuarioModificador() {
+    public function UsuarioModificador() 
+    {
         return $this->belongsTo(User::class, 'usuario_modificacion');
     }
 
-    public function Municipio() {
+    public function Municipio() 
+    {
     	return $this->belongsTo(Municipio::class, 'id_municipio');
     }
 }

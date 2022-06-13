@@ -13,9 +13,16 @@ class User extends Authenticatable implements JWTSubject
     use Notifiable;
     use HasFactory;
 
-    protected $guarded = [];
-
-    // protected $fillable = ['nombre', 'apellido', 'email', 'password', 'estado', 'usuario_creacion', 'usuario_modificacion', 'id_tipo'];
+    protected $fillable = [
+        'nombre', 
+        'apellido', 
+        'email', 
+        'password', 
+        'estado', 
+        'usuario_creacion', 
+        'usuario_modificacion', 
+        'id_tipo'
+    ];
 
     // Rest omitted for brevity
 
@@ -38,53 +45,59 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
-
-    // public function tieneUsuarios()
-    // {
-    //     return $this->hasMany(User::class);
-    // }
     
-    public function TipoUsuario() {
+    public function TipoUsuario() 
+    {
         return $this->belongsTo(TipoUsuario::class, 'id_tipo');
     }
 
-    public function UsuarioCreador() {
+    public function UsuarioCreador() 
+    {
         return $this->belongsTo(User::class, 'usuario_creacion');
     }
 
-    public function UsuarioModificador() {
+    public function UsuarioModificador() 
+    {
         return $this->belongsTo(User::class, 'usuario_modificacion');
     }
 
-    public function TieneMunicipio() {
+    public function TieneMunicipio() 
+    {
         return $this->hasMany(Municipio::class);
     }
 
-    public function TieneRepresentante() {
+    public function TieneRepresentante() 
+    {
         return $this->hasMany(Representante::class);
     }
 
-    public function TieneHospedaje() {
+    public function TieneHospedaje() 
+    {
         return $this->hasMany(Hospedaje::class);
     }
 
-    public function TieneRecreacion() {
+    public function TieneRecreacion() 
+    {
         return $this->hasMany(Recreacion::class);
     }
 
-    public function TieneAlimento() {
+    public function TieneAlimento() 
+    {
         return $this->hasMany(Alimento::class);
     }
 
-    public function TieneTransporte() {
+    public function TieneTransporte() 
+    {
         return $this->hasMany(Transporte::class);
     }
 
-    public function TieneAtractivoCultural() {
+    public function TieneAtractivoCultural() 
+    {
         return $this->hasMany(AtractivoCultural::class);
     }
 
-    public function TieneAtractivoNatural() {
+    public function TieneAtractivoNatural() 
+    {
         return $this->hasMany(AtractivoNatural::class);
     }
 }

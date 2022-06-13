@@ -10,7 +10,14 @@ class RecreacionController extends Controller
 {
     public function index()
     {
-        $recreacion = Recreacion::with(
+        $hospedaje = Recreacion::select(
+            'razon_social',
+            'establecimientos',
+            'telefono',
+            'correo',
+            'direccion_principal',
+            'estado'
+        )->with(
             'UsuarioCreador',
             'UsuarioModificador',
             'Municipio',
@@ -25,14 +32,14 @@ class RecreacionController extends Controller
         $usuario = auth()->user();
 
         $validator = Validator::make($request->all(), [
-            "razon_social" => "required|string|unique:recreacions",
-            "establecimientos" => "required|integer",
-            "telefono" => "string",
-            "correo" => "string|email|max:100",
+            "razon_social"        => "required|string|unique:recreacions",
+            "establecimientos"    => "required|integer",
+            "telefono"            => "string",
+            "correo"              => "string|email|max:100",
             "direccion_principal" => "string|max:1000",
-            "estado" => "string|in:ACTIVO,INACTIVO",
-            "id_municipio" => "required|integer",
-            "id_representantes" => "integer",
+            "estado"              => "string|in:ACTIVO,INACTIVO",
+            "id_municipio"        => "required|integer",
+            "id_representantes"   => "integer",
         ]);
 
         if ($validator->fails()) {
@@ -56,12 +63,19 @@ class RecreacionController extends Controller
 
     public function show($id)
     {
-        $recreacion = Recreacion::with(
+        $hospedaje = Recreacion::select(
+            'razon_social',
+            'establecimientos',
+            'telefono',
+            'correo',
+            'direccion_principal',
+            'estado'
+        )->with(
             'UsuarioCreador',
             'UsuarioModificador',
             'Municipio',
-            'Representante', 
-        )->find($id);
+            'Representante',
+        )->where(['id' => $id])->get();
 
         return response()->json(compact('recreacion'), 200);
     }
@@ -71,14 +85,14 @@ class RecreacionController extends Controller
         $usuario = auth()->user();
 
         $validator = Validator::make($request->all(), [
-            "razon_social" => "string",
-            "establecimientos" => "integer",
-            "telefono" => "string",
-            "correo" => "string|email|max:100",
+            "razon_social"        => "string",
+            "establecimientos"    => "integer",
+            "telefono"            => "string",
+            "correo"              => "string|email|max:100",
             "direccion_principal" => "string|max:1000",
-            "estado" => "string|in:ACTIVO,INACTIVO",
-            "id_municipio" => "integer",
-            "id_representantes" => "integer",
+            "estado"              => "string|in:ACTIVO,INACTIVO",
+            "id_municipio"        => "integer",
+            "id_representantes"   => "integer",
         ]);
 
         if ($validator->fails()) {

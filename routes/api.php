@@ -38,12 +38,26 @@ Route::group([
     Route::post('login', 'App\Http\Controllers\AuthController@login');
     Route::post('logout', 'App\Http\Controllers\AuthController@logout');
     Route::post('refresh', 'App\Http\Controllers\AuthControllerr@refresh');
-    Route::post('me', 'App\Http\Controllers\AuthController@me');
-    Route::post('store', 'App\Http\Controllers\AuthController@store');
-    Route::get('usuarios', [AuthController::class, 'index']);
-    Route::get('perfil/{id}', [AuthController::class, 'show']);
-    Route::delete('usuario/eliminar/{id}', [AuthController::class, 'destroy']);
+    
+    Route::get('usuario', [AuthController::class, 'index']);
+    Route::get('usuario/{id}', [AuthController::class, 'show']);
+    Route::post('usuario/crear', 'App\Http\Controllers\AuthController@store');
     Route::put('usuario/modificar/{id}', [AuthController::class, 'modificar']);
+    Route::delete('usuario/eliminar/{id}', [AuthController::class, 'destroy']);
+
+    //rutas de municipios
+    Route::get('municipio', [MunicipioController::class, 'index']);
+    Route::get('municipio/{id}', [MunicipioController::class, 'show']);
+    Route::post('municipio/crear', [MunicipioController::class, 'store']);
+    Route::put('municipio/modificar/{id}', [MunicipioController::class, 'update']);
+    Route::delete('municipio/eliminar/{id}', [MunicipioController::class, 'destroy']);
+
+    //rutas de representantes
+    Route::get('representante', [RepresentanteController::class, 'index']);
+    Route::get('representante/{id}', [RepresentanteController::class, 'show']);
+    Route::post('representante/crear', [RepresentanteController::class, 'store']);
+    Route::put('representante/modificar/{id}', [RepresentanteController::class, 'update']);
+    Route::delete('representante/eliminar/{id}', [RepresentanteController::class, 'destroy']);
 
     //rutas de alimentos
     Route::get('alimento', [AlimentoController::class, 'index']);
@@ -87,18 +101,6 @@ Route::group([
     Route::put('natural/modificar/{id}', [AtractivoNaturalController::class, 'update']);
     Route::delete('natural/eliminar/{id}', [AtractivoNaturalController::class, 'destroy']);
 
-    //rutas de municipios
-    Route::get('municipio', [MunicipioController::class, 'index']);
-    Route::get('municipio/{id}', [MunicipioController::class, 'show']);
-    Route::post('municipio/crear', [MunicipioController::class, 'store']);
-    Route::put('municipio/modificar/{id}', [MunicipioController::class, 'update']);
-    Route::delete('municipio/eliminar/{id}', [MunicipioController::class, 'destroy']);
 
-    //rutas de representantes
-    Route::get('representantes', [RepresentanteController::class, 'index']);
-    Route::get('representantes/{id}', [RepresentanteController::class, 'show']);
-    Route::post('representantes/crear', [RepresentanteController::class, 'store']);
-    Route::put('representantes/modificar/{id}', [RepresentanteController::class, 'update']);
-    Route::delete('representantes/eliminar/{id}', [RepresentanteController::class, 'destroy']);
 
 });

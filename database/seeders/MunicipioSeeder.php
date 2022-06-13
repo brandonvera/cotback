@@ -16,7 +16,8 @@ class MunicipioSeeder extends Seeder
     public function run()
     {
         DB::table('municipios')->insert([
-            "nombre" => "San Cristobal",           
+            "nombre" => "San Cristobal",
+            "estado" => "ACTIVO",           
             "usuario_creacion" => null,
             "usuario_modificacion" => null,
             "created_at" => date('Y-m-d H:m:s'),

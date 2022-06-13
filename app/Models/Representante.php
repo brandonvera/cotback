@@ -9,29 +9,45 @@ class Representante extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nombre', 'apellido', 'cargo', 'telefono', 'correo', 'direccion', 'estado', 'usuario_creacion', 'usuario_modificacion'];
+    protected $fillable = [
+        'nombre', 
+        'apellido', 
+        'cargo', 
+        'telefono', 
+        'correo', 
+        'direccion', 
+        'estado', 
+        'usuario_creacion', 
+        'usuario_modificacion'
+    ];
 
-    public function UsuarioCreador() {
+    public function UsuarioCreador() 
+    {
         return $this->belongsTo(User::class, 'usuario_creacion');
     }
 
-    public function UsuarioModificador() {
+    public function UsuarioModificador() 
+    {
         return $this->belongsTo(User::class, 'usuario_modificacion');
     }
 
-     public function Hospedaje() {
+    public function Hospedaje() 
+    {
     	return $this->hasMany(Hospedaje::class, 'id_representantes');
     }
 
-    public function Alimento() {
+    public function Alimento() 
+    {
     	return $this->hasMany(Alimento::class, 'id_representantes');
     }
 
-    public function Recreacion() {
+    public function Recreacion() 
+    {
     	return $this->hasMany(Recreacion::class, 'id_representantes');
     }
 
-    public function Transporte() {
+    public function Transporte() 
+    {
     	return $this->hasMany(Transporte::class, 'id_representantes');
     }
 }

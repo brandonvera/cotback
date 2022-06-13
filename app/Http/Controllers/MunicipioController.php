@@ -10,9 +10,14 @@ class MunicipioController extends Controller
 {
     public function index()
     {
-        $municipio = Municipio::with(
+        $municipio = Municipio::select(
+            'nombre',
+            'estado'
+        )->with(
             'UsuarioCreador',
             'UsuarioModificador',
+        )where(
+            ['estado' => 'ACTIVO']
         )->get(); 
 
         return response()->json(compact('municipio'),200);
@@ -24,6 +29,7 @@ class MunicipioController extends Controller
 
         $validator = Validator::make($request->all(), [
             "nombre" => "required|string|unique:municipios",
+            "estado" => "string|in:ACTIVO,INACTIVO",
         ]);
 
         if ($validator->fails()) {
@@ -32,6 +38,7 @@ class MunicipioController extends Controller
 
         $municipio = new Municipio();
         $municipio->nombre = $request->nombre;
+        $request->estado == null ? $user->estado = "ACTIVO" : $user->estado = $request->estado;
         $municipio->usuario_creacion = $usuario->id;
         $municipio->usuario_modificacion = $usuario->id;
         
@@ -42,10 +49,15 @@ class MunicipioController extends Controller
 
     public function show($id)
     {
-        $municipio = Municipio::with(
+         $municipio = Municipio::select(
+            'nombre',
+            'estado'
+        )->with(
             'UsuarioCreador',
             'UsuarioModificador',
-        )->find($id);
+        )where(
+            ['id' => $id]
+        )->get();
 
         return response()->json(compact('municipio'), 200);
     }
@@ -56,6 +68,7 @@ class MunicipioController extends Controller
 
         $validator = Validator::make($request->all(), [
             "nombre" => "string",
+            "estado" => "string|in:ACTIVO,INACTIVO",
         ]);
 
         if ($validator->fails()) {
@@ -64,6 +77,7 @@ class MunicipioController extends Controller
 
         $municipio = Municipio::find($id);
         $municipio->nombre = $request->nombre;
+        $request->estado == null || $request->estado == "" ? $user->estado = "ACTIVO" : $user->estado = $request->estado;
         $municipio->usuario_creacion = $usuario->id;
         $municipio->usuario_modificacion = $usuario->id;
         

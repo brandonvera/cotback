@@ -10,9 +10,17 @@ class RepresentanteController extends Controller
 {
     public function index()
     {
-        $representante = Representante::with(
+        $representante = Representante::select(
+            'nombre',
+            'apellido',
+            'cargo',
+            'telefono',
+            'correo',
+            'direccion',
+            'estado'
+        )->with(
             'UsuarioCreador',
-            'UsuarioModificador',
+            'UsuarioModificador'
         )->where(['estado' => 'ACTIVO'])->get(); 
 
         return response()->json(compact('representante'),200);
@@ -23,13 +31,13 @@ class RepresentanteController extends Controller
         $usuario = auth()->user();
 
         $validator = Validator::make($request->all(), [
-            "nombre" => "required|string",
-            "apellido" => "required|string",
-            "cargo" => "required|string",
-            "telefono" => "string",
-            "correo" => "string|email|max:100",
+            "nombre"    => "required|string",
+            "apellido"  => "required|string",
+            "cargo"     => "required|string",
+            "telefono"  => "string",
+            "correo"    => "string|email|max:100",
             "direccion" => "string|max:1000",
-            "estado" => "string|in:ACTIVO,INACTIVO",
+            "estado"    => "string|in:ACTIVO,INACTIVO",
         ]);
 
         if ($validator->fails()) {
@@ -54,10 +62,18 @@ class RepresentanteController extends Controller
 
     public function show($id)
     {
-        $representante = Representante::with(
+        $representante = Representante::select(
+            'nombre',
+            'apellido',
+            'cargo',
+            'telefono',
+            'correo',
+            'direccion',
+            'estado'
+        )->with(
             'UsuarioCreador',
-            'UsuarioModificador', 
-        )->find($id);
+            'UsuarioModificador'
+        )->where(['id' => $id])->get();
 
         return response()->json(compact('representante'), 200);
     }
@@ -67,13 +83,13 @@ class RepresentanteController extends Controller
         $usuario = auth()->user();
 
         $validator = Validator::make($request->all(), [
-            "nombre" => "string",
-            "apellido" => "string",
-            "cargo" => "string",
-            "telefono" => "string",
-            "correo" => "string|email|max:100",
+            "nombre"    => "string",
+            "apellido"  => "string",
+            "cargo"     => "string",
+            "telefono"  => "string",
+            "correo"    => "string|email|max:100",
             "direccion" => "string|max:1000",
-            "estado" => "string|in:ACTIVO,INACTIVO",
+            "estado"    => "string|in:ACTIVO,INACTIVO",
         ]);
 
         if ($validator->fails()) {
