@@ -24,12 +24,12 @@ class Recreacion extends Model
 
     public function UsuarioCreador() 
     {
-        return $this->belongsTo(User::class, 'usuario_creacion');
+        return $this->belongsTo(User::class, 'id');
     }
 
     public function UsuarioModificador() 
     {
-        return $this->belongsTo(User::class, 'usuario_modificacion');
+        return $this->belongsTo(User::class, 'id');
     }
 
     public function Municipio() 
@@ -39,6 +39,6 @@ class Recreacion extends Model
 
     public function Representante() 
     {
-        return $this->belongsTo(Representante::class, 'id_representante');
+        return $this->belongsTo(Representante::class, 'id_representantes');
     }
 }

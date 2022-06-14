@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\Recreacion;
+use App\Exports\RecreacionesExport;
 
 class RecreacionController extends Controller
 {
@@ -121,5 +123,10 @@ class RecreacionController extends Controller
         $recreacion->save();
 
         return response()->json(compact('recreacion'), 200);
+    }
+
+    public function exportRecreaciones()
+    {
+        return Excel::download(new RecreacionesExport, 'recreaciones.xlsx');
     }
 }

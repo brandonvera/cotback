@@ -24,12 +24,12 @@ class Alimento extends Model
 
     public function UsuarioCreador() 
     {
-        return $this->belongsTo(User::class, 'usuario_creacion');
+        return $this->belongsTo(User::class, 'id');
     }
 
     public function UsuarioModificador() 
     {
-        return $this->belongsTo(User::class, 'usuario_modificacion');
+        return $this->belongsTo(User::class, 'id');
     }
 
     public function Municipio() 

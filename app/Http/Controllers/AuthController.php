@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Exports\UsersExport;
 use App\Models\User;
 
 class AuthController extends Controller
@@ -81,10 +83,16 @@ class AuthController extends Controller
     public function index() 
     {
         $user = User::select(
+            'id',
             'nombre', 
             'apellido', 
             'email', 
-            'estado'
+            'estado',
+            'created_at',
+            'updated_at',
+            'id_tipo',
+            'usuario_creacion',
+            'usuario_modificacion'
         )->with(
             'TipoUsuario',
             'UsuarioCreador',
@@ -119,8 +127,8 @@ class AuthController extends Controller
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $request->estado == null ? $user->estado = "ACTIVO" : $user->estado = $request->estado;
-        $request->usuario_creacion == null ? $user->usuario_creacion = 1 : $user->usuario_creacion = $usuario->id;
-        $request->usuario_modificacion == null ? $user->usuario_modificacion = 1 : $user->usuario_modificacion = $usuario->id;
+        $request->usuario_creacion == null ? $user->usuario_creacion = $usuario->id : $user->usuario_creacion = $usuario->id;
+        $request->usuario_modificacion == null ? $user->usuario_modificacion = $usuario->id : $user->usuario_modificacion = $usuario->id;
         $user->id_tipo = $request->id_tipo;
         $user->save();
 
@@ -130,13 +138,17 @@ class AuthController extends Controller
     public function show($id)
     {
         $user = User::select(
+            'id',
             'nombre', 
             'apellido', 
             'email',
             'password', 
             'estado',
             'created_at',
-            'updated_at'
+            'updated_at',
+            'id_tipo',
+            'usuario_creacion',
+            'usuario_modificacion'
         )->with(
             'TipoUsuario',
             'UsuarioCreador',
@@ -171,8 +183,8 @@ class AuthController extends Controller
         $request->email == null || $request->email == "" ? $user->email = $user->email : $user->email = $request->email;
         $request->password == null || $request->password == "" ? $user->password = $user->password : $user->password = Hash::make($request->password);
         $request->estado == null || $request->estado == "" ? $user->estado = "ACTIVO" : $user->estado = $request->estado;
-        $request->usuario_creacion == null ? $user->usuario_creacion = 1 : $user->usuario_creacion = $usuario->id;
-        $request->usuario_modificacion == null ? $user->usuario_modificacion = 1 : $user->usuario_modificacion = $usuario->id;
+        $request->usuario_creacion == null ? $user->usuario_creacion = $usuario->id : $user->usuario_creacion = $usuario->id;
+        $request->usuario_modificacion == null ? $user->usuario_modificacion = $usuario->id : $user->usuario_modificacion = $usuario->id;
         $request->id_tipo == null ? $user->id_tipo = $user->id_tipo : $user->id_tipo = $request->id_tipo;
         $user->update();
 
@@ -186,5 +198,10 @@ class AuthController extends Controller
         $usser->update();
 
         return response()->json(compact('usser'), 200);
+    }
+
+    public function exportUser()
+    {
+        return Excel::download(new UsersExport, 'usuarios.xlsx');
     }
 }

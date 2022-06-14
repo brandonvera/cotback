@@ -27,12 +27,24 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
+
 Route::group([
 
     'middleware' => 'api',
     'prefix' => 'auth'
 
 ], function ($router) {
+
+    //exportaciones
+    Route::get('usuario/exportar', [AuthController::class, 'exportUser']);
+    Route::get('representante/exportar', [RepresentanteController::class, 'exportRepresentantes']);
+    Route::get('alimento/exportar', [AlimentoController::class, 'exportAlimentos']);
+    Route::get('hospedaje/exportar', [HospedajeController::class, 'exportHospedajes']);
+    Route::get('recreacion/exportar', [RecreacionController::class, 'exportRecreaciones']);
+    Route::get('transporte/exportar', [TransporteController::class, 'exportTransportes']);
+    Route::get('cultural/exportar', [AtractivoCulturalController::class, 'exportCulturales']);
+    Route::get('natural/exportar', [AtractivoNaturalController::class, 'exportNaturales']);
+    
 
 	//rutas de usuario
     Route::post('login', 'App\Http\Controllers\AuthController@login');

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\Representante;
+use App\Exports\RepresentantesExport;
 
 class RepresentanteController extends Controller
 {
@@ -119,5 +121,10 @@ class RepresentanteController extends Controller
         $representante->save();
 
         return response()->json(compact('representante'), 200);
+    }
+
+    public function exportRepresentantes()
+    {
+        return Excel::download(new RepresentantesExport, 'representantes.xlsx');
     }
 }

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\Hospedaje;
+use App\Exports\HospedajesExport;
 
 class HospedajeController extends Controller
 {
@@ -121,5 +123,10 @@ class HospedajeController extends Controller
         $hospedaje->save();
 
         return response()->json(compact('hospedaje'), 200);
+    }
+
+    public function exportHospedajes()
+    {
+        return Excel::download(new HospedajesExport, 'hospedajes.xlsx');
     }
 }

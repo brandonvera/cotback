@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\AtractivoNatural;
+use App\Exports\NaturalesExport;
 
 class AtractivoNaturalController extends Controller
 {
@@ -99,5 +101,10 @@ class AtractivoNaturalController extends Controller
         $natural->save();
 
         return response()->json(compact('natural'), 200);
+    }
+
+    public function exportNaturales()
+    {
+        return Excel::download(new NaturalesExport, 'AtractivosNaturales.xlsx');
     }
 }

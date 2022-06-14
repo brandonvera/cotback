@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\AtractivoCultural;
+use App\Exports\CulturalesExport;
 
 class AtractivoCulturalController extends Controller
 {
@@ -99,5 +101,10 @@ class AtractivoCulturalController extends Controller
         $cultural->save();
 
         return response()->json(compact('cultural'), 200);
+    }
+
+    public function exportCulturales()
+    {
+        return Excel::download(new CulturalesExport, 'AtractivosCulturales.xlsx');
     }
 }

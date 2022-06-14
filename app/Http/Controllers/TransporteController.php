@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\Transporte;
+use App\Exports\TransportesExport;
 
 class TransporteController extends Controller
 {
@@ -121,5 +123,10 @@ class TransporteController extends Controller
         $transporte->save();
 
         return response()->json(compact('transporte'), 200);
+    }
+
+    public function exportTransportes()
+    {
+        return Excel::download(new TransportesExport, 'transportes.xlsx');
     }
 }

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\Alimento;
+use App\Exports\AlimentosExport;
 
 class AlimentoController extends Controller
 {
@@ -121,5 +123,10 @@ class AlimentoController extends Controller
         $alimento->save();
 
         return response()->json(compact('alimento'), 200);
+    }
+
+    public function exportAlimentos()
+    {
+        return Excel::download(new AlimentosExport, 'alimentos.xlsx');
     }
 }
