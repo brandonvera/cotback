@@ -2,21 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use Maatwebsite\Excel\Validators\Failure;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\AtractivoNatural;
 use App\Exports\NaturalesExport;
+use App\Imports\NaturalesImport;
 
 class AtractivoNaturalController extends Controller
 {
     public function index()
     {
-        $hospedaje = AtractivoNatural::select(
-            'nombre',
-            'direccion',
-            'estado',
-        )->with(
+        $natural = AtractivoNatural::with(
             'UsuarioCreador',
             'UsuarioModificador',
             'Municipio',
@@ -54,15 +52,11 @@ class AtractivoNaturalController extends Controller
 
     public function show($id)
     {
-        $hospedaje = AtractivoNatural::select(
-            'nombre',
-            'direccion',
-            'estado',
-        )->with(
+        $natural = AtractivoNatural::with(
             'UsuarioCreador',
             'UsuarioModificador',
             'Municipio',
-        )->where(['estado' => $id])->get();
+        )->find($id);
 
         return response()->json(compact('natural'), 200);
     }
@@ -106,5 +100,24 @@ class AtractivoNaturalController extends Controller
     public function exportNaturales()
     {
         return Excel::download(new NaturalesExport, 'AtractivosNaturales.xlsx');
+    }
+
+    public function importNaturales(Request $request) 
+    {
+        try 
+        {
+            set_time_limit(300);
+            Excel::import(new NaturalesImport, $request->file('data'));
+
+            return response()->json('Importe Exitoso', 200);
+
+        } 
+
+        catch (\Maatwebsite\Excel\Validators\ValidationException $e) 
+        {
+            $failures = $e->failures();
+
+            return response()->json(compact('failures'), 400); 
+        }
     }
 }

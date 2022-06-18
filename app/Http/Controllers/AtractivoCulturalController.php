@@ -2,21 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use Maatwebsite\Excel\Validators\Failure;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\AtractivoCultural;
 use App\Exports\CulturalesExport;
+use App\Imports\CulturalesImport;
 
 class AtractivoCulturalController extends Controller
 {
     public function index()
     {
-        $hospedaje = AtractivoCultural::select(
-            'nombre',
-            'direccion',
-            'estado',
-        )->with(
+        $cultural = AtractivoCultural::with(
             'UsuarioCreador',
             'UsuarioModificador',
             'Municipio',
@@ -54,15 +52,11 @@ class AtractivoCulturalController extends Controller
 
     public function show($id)
     {
-        $hospedaje = AtractivoCultural::select(
-            'nombre',
-            'direccion',
-            'estado',
-        )->with(
+        $cultural = AtractivoCultural::with(
             'UsuarioCreador',
             'UsuarioModificador',
             'Municipio',
-        )->where(['estado' => $id])->get();
+        )->find($id);
 
         return response()->json(compact('cultural'), 200);
     }
@@ -106,5 +100,24 @@ class AtractivoCulturalController extends Controller
     public function exportCulturales()
     {
         return Excel::download(new CulturalesExport, 'AtractivosCulturales.xlsx');
+    }
+
+    public function importCulturales(Request $request) 
+    {
+        try 
+        {
+            set_time_limit(300);
+            Excel::import(new CulturalesImport, $request->file('data'));
+
+            return response()->json('Importe Exitoso', 200);
+
+        } 
+
+        catch (\Maatwebsite\Excel\Validators\ValidationException $e) 
+        {
+            $failures = $e->failures();
+
+            return response()->json(compact('failures'), 400); 
+        }
     }
 }

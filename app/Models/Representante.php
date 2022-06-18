@@ -23,12 +23,12 @@ class Representante extends Model
 
     public function UsuarioCreador() 
     {
-        return $this->belongsTo(User::class, 'id');
+        return $this->belongsTo(User::class, 'usuario_creacion');
     }
 
     public function UsuarioModificador() 
     {
-        return $this->belongsTo(User::class, 'id');
+        return $this->belongsTo(User::class, 'usuario_modificacion');
     }
 
     public function Hospedaje() 

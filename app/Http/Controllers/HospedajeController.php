@@ -2,24 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use Maatwebsite\Excel\Validators\Failure;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\Hospedaje;
 use App\Exports\HospedajesExport;
+use App\Imports\HospedajesImport;
 
 class HospedajeController extends Controller
 {
     public function index()
     {
-        $hospedaje = Hospedaje::select(
-            'razon_social',
-            'establecimientos',
-            'telefono',
-            'correo',
-            'direccion_principal',
-            'estado'
-        )->with(
+        $hospedaje = Hospedaje::with(
             'UsuarioCreador',
             'UsuarioModificador',
             'Municipio',
@@ -65,19 +60,12 @@ class HospedajeController extends Controller
 
     public function show($id)
     {
-        $hospedaje = Hospedaje::select(
-            'razon_social',
-            'establecimientos',
-            'telefono',
-            'correo',
-            'direccion_principal',
-            'estado'
-        )->with(
+        $hospedaje = Hospedaje::with(
             'UsuarioCreador',
             'UsuarioModificador',
             'Municipio',
             'Representante',
-        )->where(['id' => $id])->get();
+        )->find($id);
 
         return response()->json(compact('hospedaje'), 200);
     }
@@ -127,6 +115,25 @@ class HospedajeController extends Controller
 
     public function exportHospedajes()
     {
-        return Excel::download(new HospedajesExport, 'hospedajes.xlsx');
+        return Excel::download(new HospedajesExport, 'Hospedajes.xlsx');
+    }
+
+    public function importHospedajes(Request $request) 
+    {
+        try 
+        {
+            set_time_limit(300);
+            Excel::import(new HospedajesImport, $request->file('data'));
+
+            return response()->json('Importe Exitoso', 200);
+
+        } 
+
+        catch (\Maatwebsite\Excel\Validators\ValidationException $e) 
+        {
+            $failures = $e->failures();
+
+            return response()->json(compact('failures'), 400); 
+        }
     }
 }

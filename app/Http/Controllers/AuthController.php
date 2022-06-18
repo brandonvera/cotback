@@ -51,7 +51,7 @@ class AuthController extends Controller
     {
         auth()->logout();
 
-        return response()->json(['message' => 'Successfully logged out']);
+        return response()->json(['message' => 'Cierre de Sesion Exitoso']);
     }
 
     /**
@@ -82,18 +82,7 @@ class AuthController extends Controller
 
     public function index() 
     {
-        $user = User::select(
-            'id',
-            'nombre', 
-            'apellido', 
-            'email', 
-            'estado',
-            'created_at',
-            'updated_at',
-            'id_tipo',
-            'usuario_creacion',
-            'usuario_modificacion'
-        )->with(
+        $user = User::with(
             'TipoUsuario',
             'UsuarioCreador',
             'UsuarioModificador'
@@ -137,25 +126,11 @@ class AuthController extends Controller
 
     public function show($id)
     {
-        $user = User::select(
-            'id',
-            'nombre', 
-            'apellido', 
-            'email',
-            'password', 
-            'estado',
-            'created_at',
-            'updated_at',
-            'id_tipo',
-            'usuario_creacion',
-            'usuario_modificacion'
-        )->with(
+        $user = User::with(
             'TipoUsuario',
             'UsuarioCreador',
             'UsuarioModificador'
-        )->where(
-            ['id' => $id]
-        )->get();
+        )->find($id);
 
         return response()->json(compact('user'), 200);
     }
@@ -168,6 +143,7 @@ class AuthController extends Controller
             "nombre"   => "string|max:100",
             "apellido" => "string|max:100",
             "email"    => "string|email|max:100",
+            "password" => "string|min:6|max:12|regex:/[a-z]/|regex:/[A-Z]/|regex:/[0-9]/|regex:/[@$!%*#?&.]/",
             "estado"   => "string|in:ACTIVO,INACTIVO",
             "id_tipo"  => "integer",
         ]);
@@ -202,6 +178,6 @@ class AuthController extends Controller
 
     public function exportUser()
     {
-        return Excel::download(new UsersExport, 'usuarios.xlsx');
+        return Excel::download(new UsersExport, 'Usuarios.xlsx');
     }
 }

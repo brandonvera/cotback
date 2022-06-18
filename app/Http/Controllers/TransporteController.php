@@ -2,24 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use Maatwebsite\Excel\Validators\Failure;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\Transporte;
 use App\Exports\TransportesExport;
+use App\Imports\TransportesImport;
 
 class TransporteController extends Controller
 {
     public function index()
     {
-        $hospedaje = Transporte::select(
-            'razon_social',
-            'establecimientos',
-            'telefono',
-            'correo',
-            'direccion_principal',
-            'estado'
-        )->with(
+        $transporte = Transporte::with(
             'UsuarioCreador',
             'UsuarioModificador',
             'Municipio',
@@ -65,19 +60,12 @@ class TransporteController extends Controller
 
     public function show($id)
     {
-        $hospedaje = Transporte::select(
-            'razon_social',
-            'establecimientos',
-            'telefono',
-            'correo',
-            'direccion_principal',
-            'estado'
-        )->with(
+        $transporte = Transporte::with(
             'UsuarioCreador',
             'UsuarioModificador',
             'Municipio',
             'Representante',
-        )->where(['id' => $id])->get();
+        )->find($id);
 
         return response()->json(compact('transporte'), 200);
     }
@@ -127,6 +115,25 @@ class TransporteController extends Controller
 
     public function exportTransportes()
     {
-        return Excel::download(new TransportesExport, 'transportes.xlsx');
+        return Excel::download(new TransportesExport, 'Transportes.xlsx');
+    }
+
+    public function importTransportes(Request $request) 
+    {
+        try 
+        {
+            set_time_limit(300);
+            Excel::import(new TransportesImport, $request->file('data'));
+
+            return response()->json('Importe Exitoso', 200);
+
+        } 
+
+        catch (\Maatwebsite\Excel\Validators\ValidationException $e) 
+        {
+            $failures = $e->failures();
+
+            return response()->json(compact('failures'), 400); 
+        }
     }
 }

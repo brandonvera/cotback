@@ -35,7 +35,7 @@ Route::group([
 
 ], function ($router) {
 
-    //exportaciones
+    //Exportaciones
     Route::get('usuario/exportar', [AuthController::class, 'exportUser']);
     Route::get('representante/exportar', [RepresentanteController::class, 'exportRepresentantes']);
     Route::get('alimento/exportar', [AlimentoController::class, 'exportAlimentos']);
@@ -44,8 +44,16 @@ Route::group([
     Route::get('transporte/exportar', [TransporteController::class, 'exportTransportes']);
     Route::get('cultural/exportar', [AtractivoCulturalController::class, 'exportCulturales']);
     Route::get('natural/exportar', [AtractivoNaturalController::class, 'exportNaturales']);
-    
 
+    //Importaciones
+    Route::post('alimento/importar', [AlimentoController::class, 'importAlimentos']);
+    Route::post('representante/importar', [RepresentanteController::class, 'importRepresentantes']);
+    Route::post('hospedaje/importar', [HospedajeController::class, 'importHospedajes']);
+    Route::post('recreacion/importar', [RecreacionController::class, 'importRecreaciones']);
+    Route::post('transporte/importar', [TransporteController::class, 'importTransportes']);
+    Route::post('cultural/importar', [AtractivoCulturalController::class, 'importCulturales']);
+    Route::post('natural/importar', [AtractivoNaturalController::class, 'importNaturales']);
+    
 	//rutas de usuario
     Route::post('login', 'App\Http\Controllers\AuthController@login');
     Route::post('logout', 'App\Http\Controllers\AuthController@logout');

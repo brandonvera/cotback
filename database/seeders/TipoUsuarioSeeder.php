@@ -20,5 +20,11 @@ class TipoUsuarioSeeder extends Seeder
             "created_at" => date('Y-m-d H:m:s'),
             "updated_at" => date('Y-m-d H:m:s'),
         ]);
+
+        DB::table('tipo_usuarios')->insert([
+            "tipo_usuario" => "invitado",
+            "created_at" => date('Y-m-d H:m:s'),
+            "updated_at" => date('Y-m-d H:m:s'),
+        ]);
     }
 }

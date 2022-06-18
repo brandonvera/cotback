@@ -2,25 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use Maatwebsite\Excel\Validators\Failure;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\Representante;
 use App\Exports\RepresentantesExport;
+use App\Imports\RepresentantesImport;
 
 class RepresentanteController extends Controller
 {
     public function index()
     {
-        $representante = Representante::select(
-            'nombre',
-            'apellido',
-            'cargo',
-            'telefono',
-            'correo',
-            'direccion',
-            'estado'
-        )->with(
+        $representante = Representante::with(
             'UsuarioCreador',
             'UsuarioModificador'
         )->where(['estado' => 'ACTIVO'])->get(); 
@@ -64,18 +58,10 @@ class RepresentanteController extends Controller
 
     public function show($id)
     {
-        $representante = Representante::select(
-            'nombre',
-            'apellido',
-            'cargo',
-            'telefono',
-            'correo',
-            'direccion',
-            'estado'
-        )->with(
+        $representante = Representante::with(
             'UsuarioCreador',
             'UsuarioModificador'
-        )->where(['id' => $id])->get();
+        )->find($id);
 
         return response()->json(compact('representante'), 200);
     }
@@ -126,5 +112,24 @@ class RepresentanteController extends Controller
     public function exportRepresentantes()
     {
         return Excel::download(new RepresentantesExport, 'representantes.xlsx');
+    }
+
+    public function importRepresentantes(Request $request) 
+    {
+        try 
+        {
+            set_time_limit(300);
+            Excel::import(new RepresentantesImport, $request->file('data'));
+
+            return response()->json('Importe Exitoso', 200);
+
+        } 
+
+        catch (\Maatwebsite\Excel\Validators\ValidationException $e) 
+        {
+            $failures = $e->failures();
+
+            return response()->json(compact('failures'), 400); 
+        }
     }
 }
