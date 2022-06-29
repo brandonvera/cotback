@@ -12,14 +12,26 @@ use App\Imports\HospedajesImport;
 
 class HospedajeController extends Controller
 {
-    public function index()
+    public function index($id)
     {
         $hospedaje = Hospedaje::with(
             'UsuarioCreador',
             'UsuarioModificador',
             'Municipio',
             'Representante',
-        )->where(['estado' => 'ACTIVO'])->get(); 
+        )->where([
+            'estado' => 'ACTIVO', 
+            'id_municipio' => $id
+        ])->get();
+
+        $hospedajeTodo = Hospedaje::with(
+            'UsuarioCreador',
+            'UsuarioModificador',
+            'Municipio',
+            'Representante',
+        )->where([ 
+            'id_municipio' => $id
+        ])->get(); 
 
         return response()->json(compact('hospedaje'),200);
     }

@@ -86,8 +86,6 @@ class AuthController extends Controller
             'TipoUsuario',
             'UsuarioCreador',
             'UsuarioModificador'
-        )->where(
-            ['estado' => 'ACTIVO']
         )->get();
 
         return response()->json(compact('user'), 200);

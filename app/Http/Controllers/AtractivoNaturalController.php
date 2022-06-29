@@ -12,13 +12,24 @@ use App\Imports\NaturalesImport;
 
 class AtractivoNaturalController extends Controller
 {
-    public function index()
+    public function index($id)
     {
         $natural = AtractivoNatural::with(
             'UsuarioCreador',
             'UsuarioModificador',
             'Municipio',
-        )->where(['estado' => 'ACTIVO'])->get(); 
+        )->where([
+            'estado' => 'ACTIVO', 
+            'id_municipio' => $id
+        ])->get();
+
+        $naturalTodo = AtractivoNatural::with(
+            'UsuarioCreador',
+            'UsuarioModificador',
+            'Municipio',
+        )->where([ 
+            'id_municipio' => $id
+        ])->get(); 
 
         return response()->json(compact('natural'),200);
     }

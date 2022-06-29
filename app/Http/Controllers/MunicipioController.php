@@ -10,15 +10,10 @@ class MunicipioController extends Controller
 {
     public function index()
     {
-        $municipio = Municipio::select(
-            'nombre',
-            'estado'
-        )->with(
+        $municipio = Municipio::with(
             'UsuarioCreador',
             'UsuarioModificador',
-        )where(
-            ['estado' => 'ACTIVO']
-        )->get(); 
+        )->where(['estado' => 'ACTIVO'])->get();
 
         return response()->json(compact('municipio'),200);
     }
@@ -49,15 +44,10 @@ class MunicipioController extends Controller
 
     public function show($id)
     {
-         $municipio = Municipio::select(
-            'nombre',
-            'estado'
-        )->with(
+         $municipio = Municipio::with(
             'UsuarioCreador',
             'UsuarioModificador',
-        )where(
-            ['id' => $id]
-        )->get();
+        )->find($id);
 
         return response()->json(compact('municipio'), 200);
     }

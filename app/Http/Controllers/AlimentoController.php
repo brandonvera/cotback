@@ -12,16 +12,28 @@ use App\Imports\AlimentosImport;
 
 class AlimentoController extends Controller
 {
-    public function index()
+    public function index($id)
     {
         $alimento = Alimento::with(
             'UsuarioCreador',
             'UsuarioModificador',
             'Municipio',
             'Representante',
-        )->where(['estado' => 'ACTIVO'])->get(); 
+        )->where([
+            'estado' => 'ACTIVO', 
+            'id_municipio' => $id
+        ])->get();
 
-        return response()->json(compact('alimento'),200);
+        $alimentoTodo = Alimento::with(
+            'UsuarioCreador',
+            'UsuarioModificador',
+            'Municipio',
+            'Representante',
+        )->where([ 
+            'id_municipio' => $id
+        ])->get(); 
+
+        return response()->json(compact('alimento', 'alimentoTodo'),200);
     }
 
     public function store(Request $request)
@@ -99,7 +111,7 @@ class AlimentoController extends Controller
         $alimento->usuario_modificacion = $usuario->id;
         $alimento->id_municipio = $request->id_municipio;
         $request->id_representantes == null ? $alimento->id_representantes = null : $alimento->id_representantes = $request->id_representantes;
-        $alimento->update();
+        $alimento->save();
 
         return response()->json(compact('alimento'), 200);
     }

@@ -12,13 +12,24 @@ use App\Imports\CulturalesImport;
 
 class AtractivoCulturalController extends Controller
 {
-    public function index()
+    public function index($id)
     {
         $cultural = AtractivoCultural::with(
             'UsuarioCreador',
             'UsuarioModificador',
             'Municipio',
-        )->where(['estado' => 'ACTIVO'])->get(); 
+        )->where([
+            'estado' => 'ACTIVO', 
+            'id_municipio' => $id
+        ])->get();
+
+        $culturalTodo = AtractivoCultural::with(
+            'UsuarioCreador',
+            'UsuarioModificador',
+            'Municipio',
+        )->where([ 
+            'id_municipio' => $id
+        ])->get(); 
 
         return response()->json(compact('cultural'),200);
     }

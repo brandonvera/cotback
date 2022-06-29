@@ -12,14 +12,26 @@ use App\Imports\TransportesImport;
 
 class TransporteController extends Controller
 {
-    public function index()
+    public function index($id)
     {
         $transporte = Transporte::with(
             'UsuarioCreador',
             'UsuarioModificador',
             'Municipio',
             'Representante',
-        )->where(['estado' => 'ACTIVO'])->get(); 
+        )->where([
+            'estado' => 'ACTIVO', 
+            'id_municipio' => $id
+        ])->get();
+
+        $transporte = Transporte::with(
+            'UsuarioCreador',
+            'UsuarioModificador',
+            'Municipio',
+            'Representante',
+        )->where([ 
+            'id_municipio' => $id
+        ])->get(); 
 
         return response()->json(compact('transporte'),200);
     }

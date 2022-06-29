@@ -6,9 +6,11 @@ use App\Models\Alimento;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\Exportable;
 
 class AlimentosExport implements FromView, ShouldAutoSize
 {
+    use Exportable;
     /**
     * @return \Illuminate\Support\Collection
     */

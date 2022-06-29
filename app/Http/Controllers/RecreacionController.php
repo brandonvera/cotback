@@ -12,14 +12,26 @@ use App\Imports\RecreacionesImport;
 
 class RecreacionController extends Controller
 {
-    public function index()
+    public function index($id)
     {
         $recreacion = Recreacion::with(
             'UsuarioCreador',
             'UsuarioModificador',
             'Municipio',
             'Representante',
-        )->where(['estado' => 'ACTIVO'])->get(); 
+        )->where([
+            'estado' => 'ACTIVO', 
+            'id_municipio' => $id
+        ])->get();
+
+        $recreacion = Recreacion::with(
+            'UsuarioCreador',
+            'UsuarioModificador',
+            'Municipio',
+            'Representante',
+        )->where([ 
+            'id_municipio' => $id
+        ])->get(); 
 
         return response()->json(compact('recreacion'),200);
     }
