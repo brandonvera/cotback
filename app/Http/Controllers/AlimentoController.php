@@ -12,8 +12,10 @@ use App\Imports\AlimentosImport;
 
 class AlimentoController extends Controller
 {
-    public function index($id)
-    {
+    public function index(Request $request, $id)
+    {   
+        $filtro = $request->buscador;
+
         $alimento = Alimento::with(
             'UsuarioCreador',
             'UsuarioModificador',
@@ -30,8 +32,10 @@ class AlimentoController extends Controller
             'Municipio',
             'Representante',
         )->where([ 
-            'id_municipio' => $id
-        ])->get(); 
+            'id_municipio' => $id,
+        ])
+        ->Where('razon_social', 'LIKE', '%'.$filtro.'%')
+        ->get();
 
         return response()->json(compact('alimento', 'alimentoTodo'),200);
     }
