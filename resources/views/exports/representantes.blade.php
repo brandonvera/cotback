@@ -26,8 +26,8 @@
 				<td>{{$r->correo}}</td>
 				<td>{{$r->direccion}}</td>
 				<td>{{$r->estado}}</td>
-				<td>{{$r['UsuarioCreador']->nombre}}</td>
-				<td>{{$r['UsuarioModificador']->nombre}}</td>
+				<td>{{$r->UsuarioCreador['nombre']}}</td>
+				<td>{{$r->UsuarioModificador['nombre']}}</td>
 				<td>{{$r->created_at}}</td>
 				<td>{{$r->updated_at}}</td>
 			</tr>

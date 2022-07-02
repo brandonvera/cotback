@@ -26,10 +26,10 @@
 				<td>{{$t->correo}}</td>
 				<td>{{$t->direccion_principal}}</td>
 				<td>{{$t->estado}}</td>
-				<td>{{$t['UsuarioCreador']->nombre}}</td>
-				<td>{{$t['UsuarioModificador']->nombre}}</td>
-				<td>{{$t['Municipio']->nombre}}</td>
-				<td>{{$t['Representante']->nombre}}</td>
+				<td>{{$t->UsuarioCreador['nombre']}}</td>
+				<td>{{$t->UsuarioModificador['nombre']}}</td>
+				<td>{{$t->Municipio['nombre']}}</td>
+				<td>{{$t->Representante['nombre']}}</td>
 				<td>{{$t->created_at}}</td>
 				<td>{{$t->updated_at}}</td>
 			</tr>

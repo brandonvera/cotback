@@ -19,9 +19,9 @@
 				<td>{{$n->nombre}}</td>
 				<td>{{$n->direccion}}</td>
 				<td>{{$n->estado}}</td>
-				<td>{{$n['UsuarioCreador']->nombre}}</td>
-				<td>{{$n['UsuarioModificador']->nombre}}</td>
-				<td>{{$n['Municipio']->nombre}}</td>
+				<td>{{$n->UsuarioCreador['nombre']}}</td>
+				<td>{{$n->UsuarioModificador['nombre']}}</td>
+				<td>{{$n->Municipio['nombre']}}</td>
 				<td>{{$n->created_at}}</td>
 				<td>{{$n->updated_at}}</td>
 			</tr>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TipoUsuarioController;
 use App\Http\Controllers\AlimentoController;
 use App\Http\Controllers\HospedajeController;
 use App\Http\Controllers\RecreacionController;
@@ -54,6 +55,9 @@ Route::group([
     Route::post('cultural/importar', [AtractivoCulturalController::class, 'importCulturales']);
     Route::post('natural/importar', [AtractivoNaturalController::class, 'importNaturales']);
     
+    //tipousuario
+    Route::get('rol', [TipoUsuarioController::class, 'index']);
+
 	//rutas de usuario
     Route::post('login', 'App\Http\Controllers\AuthController@login');
     Route::post('logout', 'App\Http\Controllers\AuthController@logout');

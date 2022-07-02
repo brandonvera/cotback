@@ -80,13 +80,17 @@ class AuthController extends Controller
         ]);
     }
 
-    public function index() 
+    public function index(Request $request) 
     {
+        $filtro = $request->buscador;
+
         $user = User::with(
             'TipoUsuario',
             'UsuarioCreador',
             'UsuarioModificador'
-        )->get();
+        )
+        ->Where('nombre', 'LIKE', '%'.$filtro.'%')
+        ->get();
 
         return response()->json(compact('user'), 200);
     }
@@ -141,7 +145,6 @@ class AuthController extends Controller
             "nombre"   => "string|max:100",
             "apellido" => "string|max:100",
             "email"    => "string|email|max:100",
-            "password" => "string|min:6|max:12|regex:/[a-z]/|regex:/[A-Z]/|regex:/[0-9]/|regex:/[@$!%*#?&.]/",
             "estado"   => "string|in:ACTIVO,INACTIVO",
             "id_tipo"  => "integer",
         ]);
