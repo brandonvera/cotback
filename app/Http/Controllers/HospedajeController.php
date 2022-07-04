@@ -12,8 +12,10 @@ use App\Imports\HospedajesImport;
 
 class HospedajeController extends Controller
 {
-    public function index($id)
+    public function index(Request $request, $id)
     {
+        $filtro = $request->buscador;
+
         $hospedaje = Hospedaje::with(
             'UsuarioCreador',
             'UsuarioModificador',
@@ -31,9 +33,11 @@ class HospedajeController extends Controller
             'Representante',
         )->where([ 
             'id_municipio' => $id
-        ])->get(); 
+        ])
+        ->Where('razon_social', 'LIKE', '%'.$filtro.'%')
+        ->get(); 
 
-        return response()->json(compact('hospedaje'),200);
+        return response()->json(compact('hospedaje', 'hospedajeTodo'),200);
     }
 
     public function store(Request $request)

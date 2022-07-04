@@ -12,8 +12,10 @@ use App\Imports\TransportesImport;
 
 class TransporteController extends Controller
 {
-    public function index($id)
+    public function index(Request $request, $id)
     {
+        $filtro = $request->buscador;
+
         $transporte = Transporte::with(
             'UsuarioCreador',
             'UsuarioModificador',
@@ -24,16 +26,18 @@ class TransporteController extends Controller
             'id_municipio' => $id
         ])->get();
 
-        $transporte = Transporte::with(
+        $transporteTodo = Transporte::with(
             'UsuarioCreador',
             'UsuarioModificador',
             'Municipio',
             'Representante',
         )->where([ 
             'id_municipio' => $id
-        ])->get(); 
+        ])
+        ->Where('razon_social', 'LIKE', '%'.$filtro.'%')
+        ->get(); 
 
-        return response()->json(compact('transporte'),200);
+        return response()->json(compact('transporte', 'transporteTodo'),200);
     }
 
     public function store(Request $request)

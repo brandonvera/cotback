@@ -12,8 +12,10 @@ use App\Imports\RecreacionesImport;
 
 class RecreacionController extends Controller
 {
-    public function index($id)
+    public function index(Request $request, $id)
     {
+        $filtro = $request->buscador;
+
         $recreacion = Recreacion::with(
             'UsuarioCreador',
             'UsuarioModificador',
@@ -24,16 +26,18 @@ class RecreacionController extends Controller
             'id_municipio' => $id
         ])->get();
 
-        $recreacion = Recreacion::with(
+        $recreacionTodo = Recreacion::with(
             'UsuarioCreador',
             'UsuarioModificador',
             'Municipio',
             'Representante',
         )->where([ 
             'id_municipio' => $id
-        ])->get(); 
+        ])
+        ->Where('razon_social', 'LIKE', '%'.$filtro.'%')
+        ->get(); 
 
-        return response()->json(compact('recreacion'),200);
+        return response()->json(compact('recreacion', 'recreacionTodo'),200);
     }
 
     public function store(Request $request)

@@ -12,8 +12,10 @@ use App\Imports\CulturalesImport;
 
 class AtractivoCulturalController extends Controller
 {
-    public function index($id)
+    public function index(Request $request, $id)
     {
+        $filtro = $request->buscador;
+
         $cultural = AtractivoCultural::with(
             'UsuarioCreador',
             'UsuarioModificador',
@@ -29,9 +31,11 @@ class AtractivoCulturalController extends Controller
             'Municipio',
         )->where([ 
             'id_municipio' => $id
-        ])->get(); 
+        ])
+        ->Where('nombre', 'LIKE', '%'.$filtro.'%')
+        ->get(); 
 
-        return response()->json(compact('cultural'),200);
+        return response()->json(compact('cultural', 'culturalTodo'),200);
     }
 
     public function store(Request $request)

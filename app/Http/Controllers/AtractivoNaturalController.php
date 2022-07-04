@@ -12,8 +12,10 @@ use App\Imports\NaturalesImport;
 
 class AtractivoNaturalController extends Controller
 {
-    public function index($id)
+    public function index(Request $request, $id)
     {
+        $filtro = $request->buscador;
+
         $natural = AtractivoNatural::with(
             'UsuarioCreador',
             'UsuarioModificador',
@@ -29,9 +31,11 @@ class AtractivoNaturalController extends Controller
             'Municipio',
         )->where([ 
             'id_municipio' => $id
-        ])->get(); 
+        ])
+        ->Where('nombre', 'LIKE', '%'.$filtro.'%')
+        ->get(); 
 
-        return response()->json(compact('natural'),200);
+        return response()->json(compact('natural', 'naturalTodo'),200);
     }
 
     public function store(Request $request)

@@ -12,12 +12,16 @@ use App\Imports\RepresentantesImport;
 
 class RepresentanteController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $filtro = $request->buscador;
+
         $representante = Representante::with(
             'UsuarioCreador',
             'UsuarioModificador'
-        )->where(['estado' => 'ACTIVO'])->get(); 
+        )
+        ->Where('nombre', 'LIKE', '%'.$filtro.'%')
+        ->get(); 
 
         return response()->json(compact('representante'),200);
     }
@@ -111,7 +115,7 @@ class RepresentanteController extends Controller
 
     public function exportRepresentantes()
     {
-        return Excel::download(new RepresentantesExport, 'representantes.xlsx');
+        return Excel::download(new RepresentantesExport, 'Representantes.xlsx');
     }
 
     public function importRepresentantes(Request $request) 
