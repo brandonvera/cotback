@@ -16,7 +16,7 @@ class MunicipioSeeder extends Seeder
     public function run()
     {
         DB::table('municipios')->insert([
-            "nombre" => "San Cristobal",
+            "nombre" => "San Cristóbal",
             "estado" => "ACTIVO",           
             "usuario_creacion" => 1,
             "usuario_modificacion" => 1,
@@ -25,7 +25,7 @@ class MunicipioSeeder extends Seeder
         ]);
 
         DB::table('municipios')->insert([
-            "nombre" => "Cardenas",
+            "nombre" => "Cárdenas",
             "estado" => "ACTIVO",           
             "usuario_creacion" => 1,
             "usuario_modificacion" => 1,
@@ -34,7 +34,7 @@ class MunicipioSeeder extends Seeder
         ]);
 
         DB::table('municipios')->insert([
-            "nombre" => "Cordoba",
+            "nombre" => "Córdoba",
             "estado" => "ACTIVO",           
             "usuario_creacion" => 1,
             "usuario_modificacion" => 1,
@@ -43,7 +43,7 @@ class MunicipioSeeder extends Seeder
         ]);
 
         DB::table('municipios')->insert([
-            "nombre" => "Jauregui",
+            "nombre" => "Jáuregui",
             "estado" => "ACTIVO",           
             "usuario_creacion" => 1,
             "usuario_modificacion" => 1,
@@ -61,7 +61,7 @@ class MunicipioSeeder extends Seeder
         ]);
 
         DB::table('municipios')->insert([
-            "nombre" => "Fernandez Feo",
+            "nombre" => "Fernández Féo",
             "estado" => "ACTIVO",           
             "usuario_creacion" => 1,
             "usuario_modificacion" => 1,
@@ -70,7 +70,7 @@ class MunicipioSeeder extends Seeder
         ]);
 
         DB::table('municipios')->insert([
-            "nombre" => "Garcia de Hevia",
+            "nombre" => "García de Hevia",
             "estado" => "ACTIVO",           
             "usuario_creacion" => 1,
             "usuario_modificacion" => 1,
@@ -79,7 +79,7 @@ class MunicipioSeeder extends Seeder
         ]);
 
         DB::table('municipios')->insert([
-            "nombre" => "Junin",
+            "nombre" => "Junín",
             "estado" => "ACTIVO",           
             "usuario_creacion" => 1,
             "usuario_modificacion" => 1,
@@ -98,6 +98,177 @@ class MunicipioSeeder extends Seeder
 
         DB::table('municipios')->insert([
             "nombre" => "Francisco de Miranda",
+            "estado" => "ACTIVO",           
+            "usuario_creacion" => 1,
+            "usuario_modificacion" => 1,
+            "created_at" => date('Y-m-d H:m:s'),
+            "updated_at" => date('Y-m-d H:m:s'),
+        ]);
+
+        DB::table('municipios')->insert([
+            "nombre" => "Libertador",
+            "estado" => "ACTIVO",           
+            "usuario_creacion" => 1,
+            "usuario_modificacion" => 1,
+            "created_at" => date('Y-m-d H:m:s'),
+            "updated_at" => date('Y-m-d H:m:s'),
+        ]);
+
+        DB::table('municipios')->insert([
+            "nombre" => "Panamericano",
+            "estado" => "ACTIVO",           
+            "usuario_creacion" => 1,
+            "usuario_modificacion" => 1,
+            "created_at" => date('Y-m-d H:m:s'),
+            "updated_at" => date('Y-m-d H:m:s'),
+        ]);
+
+        DB::table('municipios')->insert([
+            "nombre" => "José María Vargas",
+            "estado" => "ACTIVO",           
+            "usuario_creacion" => 1,
+            "usuario_modificacion" => 1,
+            "created_at" => date('Y-m-d H:m:s'),
+            "updated_at" => date('Y-m-d H:m:s'),
+        ]);
+
+        DB::table('municipios')->insert([
+            "nombre" => "Antonio Rómulo Acosta",
+            "estado" => "ACTIVO",           
+            "usuario_creacion" => 1,
+            "usuario_modificacion" => 1,
+            "created_at" => date('Y-m-d H:m:s'),
+            "updated_at" => date('Y-m-d H:m:s'),
+        ]);
+
+        DB::table('municipios')->insert([
+            "nombre" => "Bolívar",
+            "estado" => "ACTIVO",           
+            "usuario_creacion" => 1,
+            "usuario_modificacion" => 1,
+            "created_at" => date('Y-m-d H:m:s'),
+            "updated_at" => date('Y-m-d H:m:s'),
+        ]);
+
+        DB::table('municipios')->insert([
+            "nombre" => "Pedro María Ureña",
+            "estado" => "ACTIVO",           
+            "usuario_creacion" => 1,
+            "usuario_modificacion" => 1,
+            "created_at" => date('Y-m-d H:m:s'),
+            "updated_at" => date('Y-m-d H:m:s'),
+        ]);
+
+        DB::table('municipios')->insert([
+            "nombre" => "Andres Bello",
+            "estado" => "ACTIVO",           
+            "usuario_creacion" => 1,
+            "usuario_modificacion" => 1,
+            "created_at" => date('Y-m-d H:m:s'),
+            "updated_at" => date('Y-m-d H:m:s'),
+        ]);
+
+        DB::table('municipios')->insert([
+            "nombre" => "Samuel Darío Maldonado",
+            "estado" => "ACTIVO",           
+            "usuario_creacion" => 1,
+            "usuario_modificacion" => 1,
+            "created_at" => date('Y-m-d H:m:s'),
+            "updated_at" => date('Y-m-d H:m:s'),
+        ]);
+
+        DB::table('municipios')->insert([
+            "nombre" => "Guásimos",
+            "estado" => "ACTIVO",           
+            "usuario_creacion" => 1,
+            "usuario_modificacion" => 1,
+            "created_at" => date('Y-m-d H:m:s'),
+            "updated_at" => date('Y-m-d H:m:s'),
+        ]);
+
+        DB::table('municipios')->insert([
+            "nombre" => "Michelena",
+            "estado" => "ACTIVO",           
+            "usuario_creacion" => 1,
+            "usuario_modificacion" => 1,
+            "created_at" => date('Y-m-d H:m:s'),
+            "updated_at" => date('Y-m-d H:m:s'),
+        ]);
+
+        DB::table('municipios')->insert([
+            "nombre" => "San Judas Tadeo",
+            "estado" => "ACTIVO",           
+            "usuario_creacion" => 1,
+            "usuario_modificacion" => 1,
+            "created_at" => date('Y-m-d H:m:s'),
+            "updated_at" => date('Y-m-d H:m:s'),
+        ]);
+
+        DB::table('municipios')->insert([
+            "nombre" => "Torbes",
+            "estado" => "ACTIVO",           
+            "usuario_creacion" => 1,
+            "usuario_modificacion" => 1,
+            "created_at" => date('Y-m-d H:m:s'),
+            "updated_at" => date('Y-m-d H:m:s'),
+        ]);
+
+        DB::table('municipios')->insert([
+            "nombre" => "Rafael Urdaneta",
+            "estado" => "ACTIVO",           
+            "usuario_creacion" => 1,
+            "usuario_modificacion" => 1,
+            "created_at" => date('Y-m-d H:m:s'),
+            "updated_at" => date('Y-m-d H:m:s'),
+        ]);
+
+        DB::table('municipios')->insert([
+            "nombre" => "Simón Rodriguez",
+            "estado" => "ACTIVO",           
+            "usuario_creacion" => 1,
+            "usuario_modificacion" => 1,
+            "created_at" => date('Y-m-d H:m:s'),
+            "updated_at" => date('Y-m-d H:m:s'),
+        ]);
+
+        DB::table('municipios')->insert([
+            "nombre" => "Capacho Nuevo",
+            "estado" => "ACTIVO",           
+            "usuario_creacion" => 1,
+            "usuario_modificacion" => 1,
+            "created_at" => date('Y-m-d H:m:s'),
+            "updated_at" => date('Y-m-d H:m:s'),
+        ]);
+
+        DB::table('municipios')->insert([
+            "nombre" => "Ayacucho",
+            "estado" => "ACTIVO",           
+            "usuario_creacion" => 1,
+            "usuario_modificacion" => 1,
+            "created_at" => date('Y-m-d H:m:s'),
+            "updated_at" => date('Y-m-d H:m:s'),
+        ]);
+
+        DB::table('municipios')->insert([
+            "nombre" => "Capacho Viejo",
+            "estado" => "ACTIVO",           
+            "usuario_creacion" => 1,
+            "usuario_modificacion" => 1,
+            "created_at" => date('Y-m-d H:m:s'),
+            "updated_at" => date('Y-m-d H:m:s'),
+        ]);
+
+        DB::table('municipios')->insert([
+            "nombre" => "Sucre",
+            "estado" => "ACTIVO",           
+            "usuario_creacion" => 1,
+            "usuario_modificacion" => 1,
+            "created_at" => date('Y-m-d H:m:s'),
+            "updated_at" => date('Y-m-d H:m:s'),
+        ]);
+
+        DB::table('municipios')->insert([
+            "nombre" => "Seboruco",
             "estado" => "ACTIVO",           
             "usuario_creacion" => 1,
             "usuario_modificacion" => 1,

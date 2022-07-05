@@ -46,7 +46,7 @@ class RecreacionController extends Controller
 
         $validator = Validator::make($request->all(), [
             "razon_social"        => "required|string|unique:recreacions",
-            "establecimientos"    => "required|integer",
+            "establecimientos"    => "integer",
             "telefono"            => "string",
             "correo"              => "string|email|max:100",
             "direccion_principal" => "string|max:1000",

@@ -22,7 +22,7 @@ class HospedajesImport implements ToModel, WithHeadingRow, WithValidation, WithB
     public function __construct()
     {
         $this->municipio = Municipio::pluck('id', 'nombre');
-        $this->representante = Representante::pluck('id', 'nombre');
+        $this->representante = Representante::pluck('id', 'persona');
     }
 
     /**

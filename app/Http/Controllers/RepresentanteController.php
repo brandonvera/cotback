@@ -20,7 +20,7 @@ class RepresentanteController extends Controller
             'UsuarioCreador',
             'UsuarioModificador'
         )
-        ->Where('nombre', 'LIKE', '%'.$filtro.'%')
+        ->Where('persona', 'LIKE', '%'.$filtro.'%')
         ->get(); 
 
         return response()->json(compact('representante'),200);
@@ -31,9 +31,8 @@ class RepresentanteController extends Controller
         $usuario = auth()->user();
 
         $validator = Validator::make($request->all(), [
-            "nombre"    => "required|string",
-            "apellido"  => "required|string",
-            "cargo"     => "required|string",
+            "persona"   => "required|string",
+            "cargo"     => "string",
             "telefono"  => "string",
             "correo"    => "string|email|max:100",
             "direccion" => "string|max:1000",
@@ -45,8 +44,7 @@ class RepresentanteController extends Controller
         };
 
         $representante = new Representante();
-        $representante->nombre = $request->nombre;
-        $representante->apellido = $request->apellido;
+        $representante->persona = $request->persona;
         $representante->cargo = $request->cargo;
         $representante->telefono = $request->telefono;
         $representante->correo = $request->correo;
@@ -75,8 +73,7 @@ class RepresentanteController extends Controller
         $usuario = auth()->user();
 
         $validator = Validator::make($request->all(), [
-            "nombre"    => "string",
-            "apellido"  => "string",
+            "persona"    => "string",
             "cargo"     => "string",
             "telefono"  => "string",
             "correo"    => "string|email|max:100",
@@ -89,8 +86,7 @@ class RepresentanteController extends Controller
         };
 
         $representante = Representante::find($id);
-        $representante->nombre = $request->nombre;
-        $representante->apellido = $request->apellido;
+        $representante->persona = $request->persona;
         $representante->cargo = $request->cargo;
         $representante->telefono = $request->telefono;
         $representante->correo = $request->correo;

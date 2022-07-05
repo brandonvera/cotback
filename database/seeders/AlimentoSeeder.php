@@ -15,79 +15,79 @@ class AlimentoSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('alimentos')->insert([
-            "razon_social" => "McDonald",
-            "establecimientos" => 1,
-            "telefono" => "04140000100",
-            "correo" => "admin@gmail.com",
-            "direccion_principal" => "palo gordo, altos de paramillo, dulceria #3514",
-            "estado" => "ACTIVO",
-            "usuario_creacion" => 1,
-            "usuario_modificacion" => 1,
-            "id_municipio" => 1,
-            "id_representantes" => 1,
-            "created_at" => date('Y-m-d H:m:s'),
-            "updated_at" => date('Y-m-d H:m:s'),
-        ]);
+        // DB::table('alimentos')->insert([
+        //     "razon_social" => "McDonald",
+        //     "establecimientos" => 1,
+        //     "telefono" => "04140000100",
+        //     "correo" => "admin@gmail.com",
+        //     "direccion_principal" => "palo gordo, altos de paramillo, dulceria #3514",
+        //     "estado" => "ACTIVO",
+        //     "usuario_creacion" => 1,
+        //     "usuario_modificacion" => 1,
+        //     "id_municipio" => 1,
+        //     "id_representantes" => 1,
+        //     "created_at" => date('Y-m-d H:m:s'),
+        //     "updated_at" => date('Y-m-d H:m:s'),
+        // ]);
 
-        DB::table('alimentos')->insert([
-            "razon_social" => "Burguer",
-            "establecimientos" => 1,
-            "telefono" => "04140000100",
-            "correo" => "admin@gmail.com",
-            "direccion_principal" => "palo gordo, altos de paramillo, dulceria #3514",
-            "estado" => "ACTIVO",
-            "usuario_creacion" => 1,
-            "usuario_modificacion" => 1,
-            "id_municipio" => 1,
-            "id_representantes" => 1,
-            "created_at" => date('Y-m-d H:m:s'),
-            "updated_at" => date('Y-m-d H:m:s'),
-        ]);
+        // DB::table('alimentos')->insert([
+        //     "razon_social" => "Burguer",
+        //     "establecimientos" => 1,
+        //     "telefono" => "04140000100",
+        //     "correo" => "admin@gmail.com",
+        //     "direccion_principal" => "palo gordo, altos de paramillo, dulceria #3514",
+        //     "estado" => "ACTIVO",
+        //     "usuario_creacion" => 1,
+        //     "usuario_modificacion" => 1,
+        //     "id_municipio" => 1,
+        //     "id_representantes" => 1,
+        //     "created_at" => date('Y-m-d H:m:s'),
+        //     "updated_at" => date('Y-m-d H:m:s'),
+        // ]);
 
-        DB::table('alimentos')->insert([
-            "razon_social" => "Toripollo",
-            "establecimientos" => 1,
-            "telefono" => "04140000100",
-            "correo" => "admin@gmail.com",
-            "direccion_principal" => "palo gordo, altos de paramillo, dulceria #3514",
-            "estado" => "ACTIVO",
-            "usuario_creacion" => 1,
-            "usuario_modificacion" => 1,
-            "id_municipio" => 5,
-            "id_representantes" => 1,
-            "created_at" => date('Y-m-d H:m:s'),
-            "updated_at" => date('Y-m-d H:m:s'),
-        ]);
+        // DB::table('alimentos')->insert([
+        //     "razon_social" => "Toripollo",
+        //     "establecimientos" => 1,
+        //     "telefono" => "04140000100",
+        //     "correo" => "admin@gmail.com",
+        //     "direccion_principal" => "palo gordo, altos de paramillo, dulceria #3514",
+        //     "estado" => "ACTIVO",
+        //     "usuario_creacion" => 1,
+        //     "usuario_modificacion" => 1,
+        //     "id_municipio" => 5,
+        //     "id_representantes" => 1,
+        //     "created_at" => date('Y-m-d H:m:s'),
+        //     "updated_at" => date('Y-m-d H:m:s'),
+        // ]);
 
-        DB::table('alimentos')->insert([
-            "razon_social" => "Catire Hot Dogs",
-            "establecimientos" => 1,
-            "telefono" => "04140000100",
-            "correo" => "admin@gmail.com",
-            "direccion_principal" => "palo gordo, altos de paramillo, dulceria #3514",
-            "estado" => "ACTIVO",
-            "usuario_creacion" => 1,
-            "usuario_modificacion" => 1,
-            "id_municipio" => 5,
-            "id_representantes" => 1,
-            "created_at" => date('Y-m-d H:m:s'),
-            "updated_at" => date('Y-m-d H:m:s'),
-        ]);
+        // DB::table('alimentos')->insert([
+        //     "razon_social" => "Catire Hot Dogs",
+        //     "establecimientos" => 1,
+        //     "telefono" => "04140000100",
+        //     "correo" => "admin@gmail.com",
+        //     "direccion_principal" => "palo gordo, altos de paramillo, dulceria #3514",
+        //     "estado" => "ACTIVO",
+        //     "usuario_creacion" => 1,
+        //     "usuario_modificacion" => 1,
+        //     "id_municipio" => 5,
+        //     "id_representantes" => 1,
+        //     "created_at" => date('Y-m-d H:m:s'),
+        //     "updated_at" => date('Y-m-d H:m:s'),
+        // ]);
 
-        DB::table('alimentos')->insert([
-            "razon_social" => "Burger King",
-            "establecimientos" => 1,
-            "telefono" => "04140000100",
-            "correo" => "admin@gmail.com",
-            "direccion_principal" => "palo gordo, altos de paramillo, dulceria #3514",
-            "estado" => "ACTIVO",
-            "usuario_creacion" => 1,
-            "usuario_modificacion" => 1,
-            "id_municipio" => 8,
-            "id_representantes" => 1,
-            "created_at" => date('Y-m-d H:m:s'),
-            "updated_at" => date('Y-m-d H:m:s'),
-        ]);
+        // DB::table('alimentos')->insert([
+        //     "razon_social" => "Burger King",
+        //     "establecimientos" => 1,
+        //     "telefono" => "04140000100",
+        //     "correo" => "admin@gmail.com",
+        //     "direccion_principal" => "palo gordo, altos de paramillo, dulceria #3514",
+        //     "estado" => "ACTIVO",
+        //     "usuario_creacion" => 1,
+        //     "usuario_modificacion" => 1,
+        //     "id_municipio" => 8,
+        //     "id_representantes" => 1,
+        //     "created_at" => date('Y-m-d H:m:s'),
+        //     "updated_at" => date('Y-m-d H:m:s'),
+        // ]);
     }
 }

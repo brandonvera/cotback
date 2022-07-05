@@ -2,8 +2,8 @@
 	<thead>
 		<tr>
 			<th>ID</th>
-			<th>NOMBRE</th>
-			<th>APELLIDO</th>
+			<th>PERSONA</th>
+			
 			<th>CARGO</th>
 			<th>TELEFONO</th>
 			<th>CORREO</th>
@@ -19,8 +19,8 @@
 		@foreach ($representantes as $r)
 			<tr>
 				<td>{{$r->id}}</td>
-				<td>{{$r->nombre}}</td>
-				<td>{{$r->apellido}}</td>
+				<td>{{$r->persona}}</td>
+				
 				<td>{{$r->cargo}}</td>
 				<td>{{$r->telefono}}</td>
 				<td>{{$r->correo}}</td>

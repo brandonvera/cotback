@@ -15,12 +15,12 @@ class CreateRepresentantesTable extends Migration
     {
         Schema::create('representantes', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->string('apellido');
-            $table->string('cargo');
-            $table->string('telefono');
-            $table->string('correo');
-            $table->LongText('direccion');
+            $table->string('persona');
+            // $table->string('apellido');
+            $table->string('cargo')->nullable();
+            $table->string('telefono')->nullable();
+            $table->string('correo')->nullable();
+            $table->LongText('direccion')->nullable();
             $table->string('estado');
             $table->foreignId('usuario_creacion')
                   ->unsigned()
