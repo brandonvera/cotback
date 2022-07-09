@@ -38,12 +38,8 @@ class RepresentanteController extends Controller
         if($usuario->id == 1)
         {
             $validator = Validator::make($request->all(), [
-                "persona"   => "required|string",
-                "cargo"     => "string",
-                "telefono"  => "string",
-                "correo"    => "string|email|max:100",
-                "direccion" => "string|max:1000",
-                "estado"    => "string|in:ACTIVO,INACTIVO",
+                "persona" => "required|string",
+                "estado"  => "required|string|in:ACTIVO,INACTIVO",
             ]);
 
             if ($validator->fails()) {
@@ -88,12 +84,8 @@ class RepresentanteController extends Controller
         if($usuario->id == 1)
         {
             $validator = Validator::make($request->all(), [
-                "persona"    => "string",
-                "cargo"     => "string",
-                "telefono"  => "string",
-                "correo"    => "string|email|max:100",
-                "direccion" => "string|max:1000",
-                "estado"    => "string|in:ACTIVO,INACTIVO",
+                "persona" => "string",
+                "estado"  => "string|in:ACTIVO,INACTIVO",
             ]);
 
             if ($validator->fails()) {

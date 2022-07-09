@@ -55,10 +55,9 @@ class AtractivoNaturalController extends Controller
         if($usuario->id == 1)
         {
             $validator = Validator::make($request->all(), [
-                "nombre"       => "required|string|unique:atractivo_naturals",
-                "direccion"    => "string|max:1000",
-                "estado"       => "string|in:ACTIVO,INACTIVO",
-                "id_municipio" => "integer",
+                "nombre" => "required|string|unique:atractivo_naturals",
+                "estado" => "required|string|in:ACTIVO,INACTIVO",
+                "id_municipio" => "required|integer",
             ]);
 
             if ($validator->fails()) {
@@ -101,9 +100,8 @@ class AtractivoNaturalController extends Controller
         if($usuario->id == 1)
         {
             $validator = Validator::make($request->all(), [
-                "nombre"       => "string",
-                "direccion"    => "string|max:1000",
-                "estado"       => "string|in:ACTIVO,INACTIVO",
+                "nombre" => "string|unique:atractivo_naturals",
+                "estado" => "string|in:ACTIVO,INACTIVO",
                 "id_municipio" => "integer",
             ]);
 

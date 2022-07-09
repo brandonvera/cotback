@@ -112,8 +112,8 @@ class AuthController extends Controller
                 "apellido" => "required|string|max:100",
                 "email"    => "required|string|email|max:100|unique:users",
                 "password" => "required|string|min:6|max:12|regex:/[a-z]/|regex:/[A-Z]/|regex:/[0-9]/|regex:/[@$!%*#?&.]/",
-                "estado"   => "string|in:ACTIVO,INACTIVO",
-                "id_tipo"  => "integer",
+                "estado"   => "required|string|in:ACTIVO,INACTIVO",
+                "id_tipo"  => "required|integer",
             ]);
 
             if ($validator->fails()) {
