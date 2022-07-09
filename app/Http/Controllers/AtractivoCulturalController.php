@@ -15,6 +15,23 @@ class AtractivoCulturalController extends Controller
     public function index(Request $request, $id)
     {
         $filtro = $request->buscador;
+        $usuario = auth()->user();
+
+        if($usuario->id == 1)
+        {
+            $culturalTodo = AtractivoCultural::with(
+                'UsuarioCreador',
+                'UsuarioModificador',
+                'Municipio',
+            )->where([ 
+                'id_municipio' => $id
+            ])
+            ->where('nombre', 'LIKE', '%'.$filtro.'%')
+            ->orWhere('estado', 'LIKE', $filtro.'%')
+            ->get(); 
+
+            return response()->json(compact('culturalTodo'),200);
+        }
 
         $cultural = AtractivoCultural::with(
             'UsuarioCreador',
@@ -23,116 +40,135 @@ class AtractivoCulturalController extends Controller
         )->where([
             'estado' => 'ACTIVO', 
             'id_municipio' => $id
-        ])->get();
-
-        $culturalTodo = AtractivoCultural::with(
-            'UsuarioCreador',
-            'UsuarioModificador',
-            'Municipio',
-        )->where([ 
-            'id_municipio' => $id
         ])
-        ->Where('nombre', 'LIKE', '%'.$filtro.'%')
-        ->get(); 
+        ->where('nombre', 'LIKE', '%'.$filtro.'%')
+        ->get();
 
-        return response()->json(compact('cultural', 'culturalTodo'),200);
+        return response()->json(compact('cultural'),200);
     }
 
     public function store(Request $request)
     {
         $usuario = auth()->user();
 
-        $validator = Validator::make($request->all(), [
-            "nombre"       => "required|string|unique:atractivo_culturals",
-            "direccion"    => "string|max:1000",
-            "estado"       => "string|in:ACTIVO,INACTIVO",
-            "id_municipio" => "integer",
-        ]);
+        if($usuario->id == 1)
+        {
+            $validator = Validator::make($request->all(), [
+                "nombre"       => "required|string|unique:atractivo_culturals",
+                "direccion"    => "string|max:1000",
+                "estado"       => "string|in:ACTIVO,INACTIVO",
+                "id_municipio" => "integer",
+            ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors()->toJson(), 400);
-        };
+            if ($validator->fails()) {
+                return response()->json($validator->errors()->toJson(), 400);
+            };
 
-        $cultural = new AtractivoCultural();
-        $cultural->nombre = $request->nombre;
-        $cultural->direccion = $request->direccion;
-        $request->estado == null ? $cultural->estado = "ACTIVO" : $cultural->estado = $request->estado;
-        $cultural->usuario_creacion = $usuario->id;
-        $cultural->usuario_modificacion = $usuario->id;
-        $cultural->id_municipio = $request->id_municipio;
-        $cultural->save();
+            $cultural = new AtractivoCultural();
+            $cultural->nombre = $request->nombre;
+            $cultural->direccion = $request->direccion;
+            $request->estado == null ? $cultural->estado = "ACTIVO" : $cultural->estado = $request->estado;
+            $cultural->usuario_creacion = $usuario->id;
+            $cultural->usuario_modificacion = $usuario->id;
+            $cultural->id_municipio = $request->id_municipio;
+            $cultural->save();
 
-        return response()->json(compact('cultural'),201);
+            return response()->json(compact('cultural'),201);
+        }
     }
 
     public function show($id)
     {
-        $cultural = AtractivoCultural::with(
-            'UsuarioCreador',
-            'UsuarioModificador',
-            'Municipio',
-        )->find($id);
+        $usuario = auth()->user();
 
-        return response()->json(compact('cultural'), 200);
+        if($usuario->id == 1)
+        {
+            $cultural = AtractivoCultural::with(
+                'UsuarioCreador',
+                'UsuarioModificador',
+                'Municipio',
+            )->find($id);
+
+            return response()->json(compact('cultural'), 200);  
+        }
+        
     }
 
     public function update(Request $request, $id)
     {
         $usuario = auth()->user();
 
-        $validator = Validator::make($request->all(), [
-            "nombre"       => "string",
-            "direccion"    => "string|max:1000",
-            "estado"       => "string|in:ACTIVO,INACTIVO",
-            "id_municipio" => "integer",
-        ]);
+        if($usuario->id == 1)
+        {
+            $validator = Validator::make($request->all(), [
+                "nombre"       => "string",
+                "direccion"    => "string|max:1000",
+                "estado"       => "string|in:ACTIVO,INACTIVO",
+                "id_municipio" => "integer",
+            ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors()->toJson(), 400);
-        };
+            if ($validator->fails()) {
+                return response()->json($validator->errors()->toJson(), 400);
+            };
 
-        $cultural = AtractivoCultural::find($id);
-        $cultural->nombre = $request->nombre;
-        $cultural->direccion = $request->direccion;
-        $request->estado == null ? $cultural->estado = "ACTIVO" : $cultural->estado = $request->estado;
-        $cultural->usuario_creacion = $usuario->id;
-        $cultural->usuario_modificacion = $usuario->id;
-        $cultural->id_municipio = $request->id_municipio;
-        $cultural->update();
+            $cultural = AtractivoCultural::find($id);
+            $cultural->nombre = $request->nombre;
+            $cultural->direccion = $request->direccion;
+            $request->estado == null ? $cultural->estado = "ACTIVO" : $cultural->estado = $request->estado;
+            $cultural->usuario_creacion = $usuario->id;
+            $cultural->usuario_modificacion = $usuario->id;
+            $cultural->id_municipio = $request->id_municipio;
+            $cultural->update();
 
-        return response()->json(compact('cultural'), 200);
+            return response()->json(compact('cultural'), 200);
+        }
     }
 
     public function destroy($id)
     {
-        $cultural = AtractivoCultural::find($id);
-        $cultural->estado = 'INACTIVO';
-        $cultural->save();
+        $usuario = auth()->user();
 
-        return response()->json(compact('cultural'), 200);
+        if($usuario->id == 1)
+        {
+            $cultural = AtractivoCultural::find($id);
+            $cultural->estado = 'INACTIVO';
+            $cultural->save();
+
+            return response()->json(compact('cultural'), 200);
+        }       
     }
 
     public function exportCulturales()
     {
-        return Excel::download(new CulturalesExport, 'AtractivosCulturales.xlsx');
+        $usuario = auth()->user();
+
+        if($usuario->id == 1)
+        {
+            return Excel::download(new CulturalesExport, 'AtractivosCulturales.xlsx'); 
+        }      
     }
 
     public function importCulturales(Request $request) 
     {
-        try 
+        $usuario = auth()->user();
+
+        if($usuario->id == 1)
         {
-            set_time_limit(300);
-            Excel::import(new CulturalesImport, $request->file('data'));
+            try 
+            {
+                set_time_limit(300);
+                Excel::import(new CulturalesImport, $request->file('data'));
 
-            return response()->json('Importe Exitoso', 200);
+                return response()->json('Importe Exitoso', 200);
 
-        } 
+            } 
 
-        catch (\Maatwebsite\Excel\Validators\ValidationException $e) 
-        {
-            $failures = $e->failures();
+            catch (\Maatwebsite\Excel\Validators\ValidationException $e) 
+            {
+                $failures = $e->failures();
 
-            return response()->json(compact('failures'), 400); 
+                return response()->json(compact('failures'), 400); 
+            }
         }
     }
 }

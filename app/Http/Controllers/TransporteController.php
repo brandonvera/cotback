@@ -15,6 +15,24 @@ class TransporteController extends Controller
     public function index(Request $request, $id)
     {
         $filtro = $request->buscador;
+        $usuario = auth()->user();
+
+        if($usuario->id == 1)
+        {
+            $transporteTodo = Transporte::with(
+                'UsuarioCreador',
+                'UsuarioModificador',
+                'Municipio',
+                'Representante',
+            )->where([ 
+                'id_municipio' => $id
+            ])
+            ->Where('razon_social', 'LIKE', '%'.$filtro.'%')
+            ->orWhere('estado', 'LIKE', $filtro.'%')
+            ->get(); 
+
+            return response()->json(compact('transporteTodo'),200);
+        }
 
         $transporte = Transporte::with(
             'UsuarioCreador',
@@ -24,132 +42,149 @@ class TransporteController extends Controller
         )->where([
             'estado' => 'ACTIVO', 
             'id_municipio' => $id
-        ])->get();
-
-        $transporteTodo = Transporte::with(
-            'UsuarioCreador',
-            'UsuarioModificador',
-            'Municipio',
-            'Representante',
-        )->where([ 
-            'id_municipio' => $id
         ])
         ->Where('razon_social', 'LIKE', '%'.$filtro.'%')
-        ->get(); 
+        ->get();
 
-        return response()->json(compact('transporte', 'transporteTodo'),200);
+        return response()->json(compact('transporte'),200);
     }
 
     public function store(Request $request)
-    {
+    { 
         $usuario = auth()->user();
 
-        $validator = Validator::make($request->all(), [
-            "razon_social"        => "required|string|unique:transportes",
-            "establecimientos"    => "required|integer",
-            "telefono"            => "string",
-            "correo"              => "string|email|max:100",
-            "direccion_principal" => "string|max:1000",
-            "estado"              => "string|in:ACTIVO,INACTIVO",
-            "id_municipio"        => "required|integer",
-            "id_representantes"   => "integer",
-        ]);
+        if($usuario->id == 1)
+        {
+            $validator = Validator::make($request->all(), [
+                "razon_social"        => "required|string|unique:transportes",
+                "establecimientos"    => "required|integer",
+                "telefono"            => "string",
+                "correo"              => "string|email|max:100",
+                "direccion_principal" => "string|max:1000",
+                "estado"              => "string|in:ACTIVO,INACTIVO",
+                "id_municipio"        => "required|integer",
+                "id_representantes"   => "integer",
+            ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors()->toJson(), 400);
-        };
+            if ($validator->fails()) {
+                return response()->json($validator->errors()->toJson(), 400);
+            };
 
-        $transporte = new Transporte();
-        $transporte->razon_social = $request->razon_social;
-        $transporte->establecimientos = $request->establecimientos;
-        $transporte->telefono = $request->telefono;
-        $transporte->correo = $request->correo;
-        $transporte->direccion_principal = $request->direccion_principal;
-        $request->estado == null ? $transporte->estado = "ACTIVO" : $transporte->estado = $request->estado;
-        $transporte->usuario_creacion = $usuario->id;
-        $transporte->id_municipio = $request->id_municipio;
-        $request->id_representantes == null ? $transporte->id_representantes = null : $transporte->id_representantes = $request->id_representantes;
-        $transporte->save();
+            $transporte = new Transporte();
+            $transporte->razon_social = $request->razon_social;
+            $transporte->establecimientos = $request->establecimientos;
+            $transporte->telefono = $request->telefono;
+            $transporte->correo = $request->correo;
+            $transporte->direccion_principal = $request->direccion_principal;
+            $request->estado == null ? $transporte->estado = "ACTIVO" : $transporte->estado = $request->estado;
+            $transporte->usuario_creacion = $usuario->id;
+            $transporte->id_municipio = $request->id_municipio;
+            $request->id_representantes == null ? $transporte->id_representantes = null : $transporte->id_representantes = $request->id_representantes;
+            $transporte->save();
 
-        return response()->json(compact('transporte'),201);
+            return response()->json(compact('transporte'),201);
+        }
     }
 
     public function show($id)
     {
-        $transporte = Transporte::with(
-            'UsuarioCreador',
-            'UsuarioModificador',
-            'Municipio',
-            'Representante',
-        )->find($id);
+        $usuario = auth()->user();
 
-        return response()->json(compact('transporte'), 200);
+        if($usuario->id == 1)
+        {
+            $transporte = Transporte::with(
+                'UsuarioCreador',
+                'UsuarioModificador',
+                'Municipio',
+                'Representante',
+            )->find($id);
+
+            return response()->json(compact('transporte'), 200);
+        }
     }
 
     public function update(Request $request, $id)
     {
         $usuario = auth()->user();
 
-        $validator = Validator::make($request->all(), [
-            "razon_social"        => "string",
-            "establecimientos"    => "integer",
-            "telefono"            => "string",
-            "correo"              => "string|email|max:100",
-            "direccion_principal" => "string|max:1000",
-            "estado"              => "string|in:ACTIVO,INACTIVO",
-            "id_municipio"        => "integer",
-            "id_representantes"   => "integer",
-        ]);
+        if($usuario->id == 1)
+        {
+            $validator = Validator::make($request->all(), [
+                "razon_social"        => "string",
+                "establecimientos"    => "integer",
+                "telefono"            => "string",
+                "correo"              => "string|email|max:100",
+                "direccion_principal" => "string|max:1000",
+                "estado"              => "string|in:ACTIVO,INACTIVO",
+                "id_municipio"        => "integer",
+                "id_representantes"   => "integer",
+            ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors()->toJson(), 400);
-        };
+            if ($validator->fails()) {
+                return response()->json($validator->errors()->toJson(), 400);
+            };
 
-        $transporte = Transporte::find($id);
-        $transporte->razon_social = $request->razon_social;
-        $transporte->establecimientos = $request->establecimientos;
-        $transporte->telefono = $request->telefono;
-        $transporte->correo = $request->correo;
-        $transporte->direccion_principal = $request->direccion_principal;
-        $request->estado == null ? $transporte->estado = "ACTIVO" : $transporte->estado = $request->estado;
-        $transporte->usuario_modificacion = $usuario->id;
-        $transporte->id_municipio = $request->id_municipio;
-        $request->id_representantes == null ? $transporte->id_representantes = null : $transporte->id_representantes = $request->id_representantes;
-        $transporte->update();
+            $transporte = Transporte::find($id);
+            $transporte->razon_social = $request->razon_social;
+            $transporte->establecimientos = $request->establecimientos;
+            $transporte->telefono = $request->telefono;
+            $transporte->correo = $request->correo;
+            $transporte->direccion_principal = $request->direccion_principal;
+            $request->estado == null ? $transporte->estado = "ACTIVO" : $transporte->estado = $request->estado;
+            $transporte->usuario_modificacion = $usuario->id;
+            $transporte->id_municipio = $request->id_municipio;
+            $request->id_representantes == null ? $transporte->id_representantes = null : $transporte->id_representantes = $request->id_representantes;
+            $transporte->update();
 
-        return response()->json(compact('transporte'), 200);
+            return response()->json(compact('transporte'), 200);
+        }
     }
 
     public function destroy($id)
     {
-        $transporte = Transporte::find($id);
-        $transporte->estado = 'INACTIVO';
-        $transporte->save();
+        $usuario = auth()->user();
 
-        return response()->json(compact('transporte'), 200);
+        if($usuario->id == 1)
+        {
+            $transporte = Transporte::find($id);
+            $transporte->estado = 'INACTIVO';
+            $transporte->save();
+
+            return response()->json(compact('transporte'), 200);
+        }
     }
 
     public function exportTransportes()
     {
-        return Excel::download(new TransportesExport, 'Transportes.xlsx');
+        $usuario = auth()->user();
+
+        if($usuario->id == 1)
+        {
+            return Excel::download(new TransportesExport, 'Transportes.xlsx');
+        }
     }
 
     public function importTransportes(Request $request) 
     {
-        try 
+        $usuario = auth()->user();
+
+        if($usuario->id == 1)
         {
-            set_time_limit(300);
-            Excel::import(new TransportesImport, $request->file('data'));
+            try 
+            {
+                set_time_limit(300);
+                Excel::import(new TransportesImport, $request->file('data'));
 
-            return response()->json('Importe Exitoso', 200);
+                return response()->json('Importe Exitoso', 200);
 
-        } 
+            } 
 
-        catch (\Maatwebsite\Excel\Validators\ValidationException $e) 
-        {
-            $failures = $e->failures();
+            catch (\Maatwebsite\Excel\Validators\ValidationException $e) 
+            {
+                $failures = $e->failures();
 
-            return response()->json(compact('failures'), 400); 
+                return response()->json(compact('failures'), 400); 
+            }
         }
     }
 }

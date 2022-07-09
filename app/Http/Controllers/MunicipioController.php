@@ -51,37 +51,4 @@ class MunicipioController extends Controller
 
         return response()->json(compact('municipio'), 200);
     }
-
-    public function update(Request $request, $id)
-    {
-        $usuario = auth()->user();
-
-        $validator = Validator::make($request->all(), [
-            "nombre" => "string",
-            "estado" => "string|in:ACTIVO,INACTIVO",
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors()->toJson(), 400);
-        };
-
-        $municipio = Municipio::find($id);
-        $municipio->nombre = $request->nombre;
-        $request->estado == null || $request->estado == "" ? $user->estado = "ACTIVO" : $user->estado = $request->estado;
-        $municipio->usuario_creacion = $usuario->id;
-        $municipio->usuario_modificacion = $usuario->id;
-        
-        $municipio->update();
-
-        return response()->json(compact('municipio'), 200);
-    }
-
-    public function destroy($id)
-    {
-        $municipio = Municipio::find($id);
-        $municipio->estado = 'INACTIVO';
-        $municipio->save();
-
-        return response()->json(compact('municipio'), 200);
-    }
 }

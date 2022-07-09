@@ -15,121 +15,152 @@ class RepresentanteController extends Controller
     public function index(Request $request)
     {
         $filtro = $request->buscador;
+        $usuario = auth()->user();
 
-        $representante = Representante::with(
-            'UsuarioCreador',
-            'UsuarioModificador'
-        )
-        ->Where('persona', 'LIKE', '%'.$filtro.'%')
-        ->get(); 
+        if($usaurio->id == 1)
+        {
+            $representante = Representante::with(
+                'UsuarioCreador',
+                'UsuarioModificador'
+            )
+            ->Where('persona', 'LIKE', '%'.$filtro.'%')
+            ->Where('estado', 'LIKE', $filtro.'%')
+            ->get(); 
 
-        return response()->json(compact('representante'),200);
+            return response()->json(compact('representante'),200);
+        }
     }
 
     public function store(Request $request)
     {
         $usuario = auth()->user();
 
-        $validator = Validator::make($request->all(), [
-            "persona"   => "required|string",
-            "cargo"     => "string",
-            "telefono"  => "string",
-            "correo"    => "string|email|max:100",
-            "direccion" => "string|max:1000",
-            "estado"    => "string|in:ACTIVO,INACTIVO",
-        ]);
+        if($usuario->id == 1)
+        {
+            $validator = Validator::make($request->all(), [
+                "persona"   => "required|string",
+                "cargo"     => "string",
+                "telefono"  => "string",
+                "correo"    => "string|email|max:100",
+                "direccion" => "string|max:1000",
+                "estado"    => "string|in:ACTIVO,INACTIVO",
+            ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors()->toJson(), 400);
-        };
+            if ($validator->fails()) {
+                return response()->json($validator->errors()->toJson(), 400);
+            };
 
-        $representante = new Representante();
-        $representante->persona = $request->persona;
-        $representante->cargo = $request->cargo;
-        $representante->telefono = $request->telefono;
-        $representante->correo = $request->correo;
-        $representante->direccion = $request->direccion;
-        $request->estado == null ? $representante->estado = "ACTIVO" : $representante->estado = $request->estado;
-        $representante->usuario_creacion = $usuario->id;
-        $representante->usuario_modificacion = $usuario->id;
-        
-        $representante->save();
+            $representante = new Representante();
+            $representante->persona = $request->persona;
+            $representante->cargo = $request->cargo;
+            $representante->telefono = $request->telefono;
+            $representante->correo = $request->correo;
+            $representante->direccion = $request->direccion;
+            $request->estado == null ? $representante->estado = "ACTIVO" : $representante->estado = $request->estado;
+            $representante->usuario_creacion = $usuario->id;
+            $representante->usuario_modificacion = $usuario->id;
+            
+            $representante->save();
 
-        return response()->json(compact('representante'),201);
+            return response()->json(compact('representante'),201);
+        }
     }
 
     public function show($id)
     {
-        $representante = Representante::with(
-            'UsuarioCreador',
-            'UsuarioModificador'
-        )->find($id);
+        $usuario = auth()->user();
 
-        return response()->json(compact('representante'), 200);
+        if($usuario->id == 1)
+        {
+            $representante = Representante::with(
+                'UsuarioCreador',
+                'UsuarioModificador'
+            )->find($id);
+
+            return response()->json(compact('representante'), 200);
+        }
     }
 
     public function update(Request $request, $id)
     {
         $usuario = auth()->user();
 
-        $validator = Validator::make($request->all(), [
-            "persona"    => "string",
-            "cargo"     => "string",
-            "telefono"  => "string",
-            "correo"    => "string|email|max:100",
-            "direccion" => "string|max:1000",
-            "estado"    => "string|in:ACTIVO,INACTIVO",
-        ]);
+        if($usuario->id == 1)
+        {
+            $validator = Validator::make($request->all(), [
+                "persona"    => "string",
+                "cargo"     => "string",
+                "telefono"  => "string",
+                "correo"    => "string|email|max:100",
+                "direccion" => "string|max:1000",
+                "estado"    => "string|in:ACTIVO,INACTIVO",
+            ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors()->toJson(), 400);
-        };
+            if ($validator->fails()) {
+                return response()->json($validator->errors()->toJson(), 400);
+            };
 
-        $representante = Representante::find($id);
-        $representante->persona = $request->persona;
-        $representante->cargo = $request->cargo;
-        $representante->telefono = $request->telefono;
-        $representante->correo = $request->correo;
-        $representante->direccion = $request->direccion;
-        $request->estado == null ? $representante->estado = "ACTIVO" : $representante->estado = $request->estado;
-        $representante->usuario_creacion = $usuario->id;
-        $representante->usuario_modificacion = $usuario->id;
-        
-        $representante->update();
+            $representante = Representante::find($id);
+            $representante->persona = $request->persona;
+            $representante->cargo = $request->cargo;
+            $representante->telefono = $request->telefono;
+            $representante->correo = $request->correo;
+            $representante->direccion = $request->direccion;
+            $request->estado == null ? $representante->estado = "ACTIVO" : $representante->estado = $request->estado;
+            $representante->usuario_creacion = $usuario->id;
+            $representante->usuario_modificacion = $usuario->id;
+            
+            $representante->update();
 
-        return response()->json(compact('representante'), 200);
+            return response()->json(compact('representante'), 200);
+        }
     }
 
     public function destroy($id)
     {
-        $representante = Representante::find($id);
-        $representante->estado = 'INACTIVO';
-        $representante->save();
+        $usuario = auth()->user();
 
-        return response()->json(compact('representante'), 200);
+        if($usuario->id == 1)
+        {
+            $representante = Representante::find($id);
+            $representante->estado = 'INACTIVO';
+            $representante->save();
+
+            return response()->json(compact('representante'), 200);
+        }
     }
 
     public function exportRepresentantes()
     {
-        return Excel::download(new RepresentantesExport, 'Representantes.xlsx');
+        $usuario = auth()->user();
+
+        if($usuario->id == 1)
+        {
+            return Excel::download(new RepresentantesExport, 'Representantes.xlsx');
+        }
     }
 
     public function importRepresentantes(Request $request) 
     {
-        try 
+        $usuario = auth()->user();
+
+        if($usuario->id == 1)
         {
-            set_time_limit(300);
-            Excel::import(new RepresentantesImport, $request->file('data'));
+            try 
+            {
+                set_time_limit(300);
+                Excel::import(new RepresentantesImport, $request->file('data'));
 
-            return response()->json('Importe Exitoso', 200);
+                return response()->json('Importe Exitoso', 200);
 
-        } 
+            } 
 
-        catch (\Maatwebsite\Excel\Validators\ValidationException $e) 
-        {
-            $failures = $e->failures();
+            catch (\Maatwebsite\Excel\Validators\ValidationException $e) 
+            {
+                $failures = $e->failures();
 
-            return response()->json(compact('failures'), 400); 
+                return response()->json(compact('failures'), 400); 
+            }
         }
     }
 }

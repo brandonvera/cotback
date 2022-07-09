@@ -15,6 +15,24 @@ class RecreacionController extends Controller
     public function index(Request $request, $id)
     {
         $filtro = $request->buscador;
+        $usuario = auth()->user();
+
+        if($usuario->id == 1)
+        {
+            $recreacionTodo = Recreacion::with(
+                'UsuarioCreador',
+                'UsuarioModificador',
+                'Municipio',
+                'Representante',
+            )->where([ 
+                'id_municipio' => $id
+            ])
+            ->Where('razon_social', 'LIKE', '%'.$filtro.'%')
+            ->orWhere('estado', 'LIKE', $filtro.'%')
+            ->get(); 
+
+            return response()->json(compact('recreacionTodo'),200);
+        }
 
         $recreacion = Recreacion::with(
             'UsuarioCreador',
@@ -24,132 +42,149 @@ class RecreacionController extends Controller
         )->where([
             'estado' => 'ACTIVO', 
             'id_municipio' => $id
-        ])->get();
-
-        $recreacionTodo = Recreacion::with(
-            'UsuarioCreador',
-            'UsuarioModificador',
-            'Municipio',
-            'Representante',
-        )->where([ 
-            'id_municipio' => $id
         ])
         ->Where('razon_social', 'LIKE', '%'.$filtro.'%')
-        ->get(); 
+        ->get();
 
-        return response()->json(compact('recreacion', 'recreacionTodo'),200);
+        return response()->json(compact('recreacion'),200);
     }
 
     public function store(Request $request)
     {
         $usuario = auth()->user();
 
-        $validator = Validator::make($request->all(), [
-            "razon_social"        => "required|string|unique:recreacions",
-            "establecimientos"    => "integer",
-            "telefono"            => "string",
-            "correo"              => "string|email|max:100",
-            "direccion_principal" => "string|max:1000",
-            "estado"              => "string|in:ACTIVO,INACTIVO",
-            "id_municipio"        => "required|integer",
-            "id_representantes"   => "integer",
-        ]);
+        if($usuario->id == 1)
+        {
+            $validator = Validator::make($request->all(), [
+                "razon_social"        => "required|string|unique:recreacions",
+                "establecimientos"    => "integer",
+                "telefono"            => "string",
+                "correo"              => "string|email|max:100",
+                "direccion_principal" => "string|max:1000",
+                "estado"              => "string|in:ACTIVO,INACTIVO",
+                "id_municipio"        => "required|integer",
+                "id_representantes"   => "integer",
+            ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors()->toJson(), 400);
-        };
+            if ($validator->fails()) {
+                return response()->json($validator->errors()->toJson(), 400);
+            };
 
-        $recreacion = new Recreacion();
-        $recreacion->razon_social = $request->razon_social;
-        $recreacion->establecimientos = $request->establecimientos;
-        $recreacion->telefono = $request->telefono;
-        $recreacion->correo = $request->correo;
-        $recreacion->direccion_principal = $request->direccion_principal;
-        $request->estado == null ? $recreacion->estado = "ACTIVO" : $recreacion->estado = $request->estado;
-        $recreacion->usuario_creacion = $usuario->id;
-        $recreacion->id_municipio = $request->id_municipio;
-        $request->id_representantes == null ? $recreacion->id_representantes = null : $recreacion->id_representantes = $request->id_representantes;
-        $recreacion->save();
+            $recreacion = new Recreacion();
+            $recreacion->razon_social = $request->razon_social;
+            $recreacion->establecimientos = $request->establecimientos;
+            $recreacion->telefono = $request->telefono;
+            $recreacion->correo = $request->correo;
+            $recreacion->direccion_principal = $request->direccion_principal;
+            $request->estado == null ? $recreacion->estado = "ACTIVO" : $recreacion->estado = $request->estado;
+            $recreacion->usuario_creacion = $usuario->id;
+            $recreacion->id_municipio = $request->id_municipio;
+            $request->id_representantes == null ? $recreacion->id_representantes = null : $recreacion->id_representantes = $request->id_representantes;
+            $recreacion->save();
 
-        return response()->json(compact('recreacion'),201);
+            return response()->json(compact('recreacion'),201);
+        }
     }
 
     public function show($id)
     {
-        $recreacion = Recreacion::with(
-            'UsuarioCreador',
-            'UsuarioModificador',
-            'Municipio',
-            'Representante',
-        )->find($id);
+        $usuario = auth()->user();
 
-        return response()->json(compact('recreacion'), 200);
+        if($usuario->id == 1)
+        {
+            $recreacion = Recreacion::with(
+                'UsuarioCreador',
+                'UsuarioModificador',
+                'Municipio',
+                'Representante',
+            )->find($id);
+
+            return response()->json(compact('recreacion'), 200);
+        }
     }
 
     public function update(Request $request, $id)
     {
         $usuario = auth()->user();
 
-        $validator = Validator::make($request->all(), [
-            "razon_social"        => "string",
-            "establecimientos"    => "integer",
-            "telefono"            => "string",
-            "correo"              => "string|email|max:100",
-            "direccion_principal" => "string|max:1000",
-            "estado"              => "string|in:ACTIVO,INACTIVO",
-            "id_municipio"        => "integer",
-            "id_representantes"   => "integer",
-        ]);
+        if($usuario->id == 1)
+        {
+            $validator = Validator::make($request->all(), [
+                "razon_social"        => "string",
+                "establecimientos"    => "integer",
+                "telefono"            => "string",
+                "correo"              => "string|email|max:100",
+                "direccion_principal" => "string|max:1000",
+                "estado"              => "string|in:ACTIVO,INACTIVO",
+                "id_municipio"        => "integer",
+                "id_representantes"   => "integer",
+            ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors()->toJson(), 400);
-        };
+            if ($validator->fails()) {
+                return response()->json($validator->errors()->toJson(), 400);
+            };
 
-        $recreacion = Recreacion::find($id);
-        $recreacion->razon_social = $request->razon_social;
-        $recreacion->establecimientos = $request->establecimientos;
-        $recreacion->telefono = $request->telefono;
-        $recreacion->correo = $request->correo;
-        $recreacion->direccion_principal = $request->direccion_principal;
-        $request->estado == null ? $recreacion->estado = "ACTIVO" : $recreacion->estado = $request->estado;
-        $recreacion->usuario_modificacion = $usuario->id;
-        $recreacion->id_municipio = $request->id_municipio;
-        $request->id_representantes == null ? $recreacion->id_representantes = null : $recreacion->id_representantes = $request->id_representantes;
-        $recreacion->update();
+            $recreacion = Recreacion::find($id);
+            $recreacion->razon_social = $request->razon_social;
+            $recreacion->establecimientos = $request->establecimientos;
+            $recreacion->telefono = $request->telefono;
+            $recreacion->correo = $request->correo;
+            $recreacion->direccion_principal = $request->direccion_principal;
+            $request->estado == null ? $recreacion->estado = "ACTIVO" : $recreacion->estado = $request->estado;
+            $recreacion->usuario_modificacion = $usuario->id;
+            $recreacion->id_municipio = $request->id_municipio;
+            $request->id_representantes == null ? $recreacion->id_representantes = null : $recreacion->id_representantes = $request->id_representantes;
+            $recreacion->update();
 
-        return response()->json(compact('recreacion'), 200);
+            return response()->json(compact('recreacion'), 200);
+        }
     }
 
     public function destroy($id)
     {
-        $recreacion = Recreacion::find($id);
-        $recreacion->estado = 'INACTIVO';
-        $recreacion->save();
+        $usuario = auth()->user();
 
-        return response()->json(compact('recreacion'), 200);
+        if($usuario->id == 1)
+        {
+            $recreacion = Recreacion::find($id);
+            $recreacion->estado = 'INACTIVO';
+            $recreacion->save();
+
+            return response()->json(compact('recreacion'), 200);
+        }
     }
 
     public function exportRecreaciones()
     {
-        return Excel::download(new RecreacionesExport, 'Recreaciones.xlsx');
+        $usuario = auth()->user();
+
+        if($usuario->id == 1)
+        {
+            return Excel::download(new RecreacionesExport, 'Recreaciones.xlsx');
+        }
     }
 
     public function importRecreaciones(Request $request) 
     {
-        try 
+        $usuario = auth()->user();
+
+        if($usuario->id == 1)
         {
-            set_time_limit(300);
-            Excel::import(new RecreacionesImport, $request->file('data'));
+            try 
+            {
+                set_time_limit(300);
+                Excel::import(new RecreacionesImport, $request->file('data'));
 
-            return response()->json('Importe Exitoso', 200);
+                return response()->json('Importe Exitoso', 200);
 
-        } 
+            } 
 
-        catch (\Maatwebsite\Excel\Validators\ValidationException $e) 
-        {
-            $failures = $e->failures();
+            catch (\Maatwebsite\Excel\Validators\ValidationException $e) 
+            {
+                $failures = $e->failures();
 
-            return response()->json(compact('failures'), 400); 
+                return response()->json(compact('failures'), 400); 
+            }
         }
     }
 }
