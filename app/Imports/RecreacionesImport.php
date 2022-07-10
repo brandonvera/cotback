@@ -57,11 +57,9 @@ class RecreacionesImport implements ToModel, WithHeadingRow, WithValidation, Wit
     public function rules(): array
     {
         return [
-            'razon_social'        => ['required', 'string', 'unique:recreacions'],
-            'establecimientos'    => ['numeric'],
-            'correo'              => ['string', 'email'],
-            'direccion_principal' => ['string', 'max:1000'],
-            'estado'              => ['string', 'in:ACTIVO,INACTIVO'],
+            'razon_social' => ['required', 'string', 'unique:recreacions'],
+            'estado'       => ['required', 'string', 'in:ACTIVO,INACTIVO'],
+            'id_municipio' => ['required'],
         ];
     }
 }

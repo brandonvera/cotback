@@ -51,8 +51,8 @@ class NaturalesImport implements ToModel, WithHeadingRow, WithValidation, WithBa
     {
         return [
             'nombre'    => ['required', 'string', 'unique:atractivo_naturals'],
-            'direccion' => ['string', 'max:1000'],
-            'estado'    => ['string', 'in:ACTIVO,INACTIVO'],
+            'estado'    => ['required', 'string', 'in:ACTIVO,INACTIVO'],
+            'id_municipio' => ['required'],
         ];
     }
 }

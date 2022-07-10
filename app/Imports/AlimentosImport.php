@@ -57,11 +57,9 @@ class AlimentosImport implements ToModel, WithHeadingRow, WithValidation, WithBa
     public function rules(): array
     {
         return [
-            'razon_social'        => ['required', 'string', 'unique:alimentos'],
-            'establecimientos'    => ['required', 'numeric'],
-            'correo'              => ['string', 'email'],
-            'direccion_principal' => ['string', 'max:1000'],
-            'estado'              => ['string', 'in:ACTIVO,INACTIVO'],
+            'razon_social' => ['required', 'string', 'unique:alimentos'],
+            'estado'       => ['required', 'string', 'in:ACTIVO,INACTIVO'],
+            'id_municipio' => ['required'],
         ];
     }
 }

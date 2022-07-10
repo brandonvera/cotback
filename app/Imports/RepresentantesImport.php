@@ -44,11 +44,8 @@ class RepresentantesImport implements ToModel, WithHeadingRow, WithValidation, W
     public function rules():array
     {
         return [
-            'persona'    => ['required', 'string'],
-            'cargo'     => ['required', 'string'],
-            'correo'    => ['string', 'email'],
-            'direccion' => ['string', 'max:1000'],
-            'estado'    => ['string', 'in:ACTIVO,INACTIVO'],
+            'persona'   => ['required', 'string'],
+            'estado'    => ['required', 'required' ,'string', 'in:ACTIVO,INACTIVO'],
         ];
     }
 }
