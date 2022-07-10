@@ -17,14 +17,14 @@ class RepresentanteController extends Controller
         $filtro = $request->buscador;
         $usuario = auth()->user();
 
-        if($usaurio->id == 1)
+        if($usuario->id == 1)
         {
             $representante = Representante::with(
                 'UsuarioCreador',
                 'UsuarioModificador'
             )
             ->Where('persona', 'LIKE', '%'.$filtro.'%')
-            ->Where('estado', 'LIKE', $filtro.'%')
+            ->orWhere('estado', 'LIKE', $filtro.'%')
             ->get(); 
 
             return response()->json(compact('representante'),200);

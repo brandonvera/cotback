@@ -105,7 +105,7 @@ class TransporteController extends Controller
         if($usuario->id == 1)
         {
             $validator = Validator::make($request->all(), [
-                "razon_social" => "string|unique:transportes",
+                "razon_social" => "string",
                 "estado"       => "string|in:ACTIVO,INACTIVO",
                 "id_municipio" => "integer",
             ]);

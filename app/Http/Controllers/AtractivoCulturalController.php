@@ -100,7 +100,7 @@ class AtractivoCulturalController extends Controller
         if($usuario->id == 1)
         {
             $validator = Validator::make($request->all(), [
-                "nombre" => "string|unique:atractivo_culturals",
+                "nombre" => "string",
                 "estado" => "string|in:ACTIVO,INACTIVO",
                 "id_municipio" => "integer",
             ]);
