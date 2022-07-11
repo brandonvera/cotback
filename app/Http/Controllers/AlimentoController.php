@@ -61,8 +61,12 @@ class AlimentoController extends Controller
         {
             $validator = Validator::make($request->all(), [
                 "razon_social" => "required|string|unique:alimentos",
-                "estado"       => "required|string|in:ACTIVO,INACTIVO",
-                "id_municipio" => "required|integer", 
+                "establecimientos" => "nullable|integer",
+                "telefono" => "nullable|string|regex:/[0-9]/|min:11|max:11",      
+                "correo" => "nullable|string|email",
+                "direccion_principal" => "nullable|string|max:1000",
+                "id_municipio" => "required|integer",
+                "estado"       => "required|string|in:ACTIVO,INACTIVO", 
             ]);
 
             if ($validator->fails()) {
@@ -109,9 +113,13 @@ class AlimentoController extends Controller
         if($usuario->id == 1)
         { 
             $validator = Validator::make($request->all(), [
-                "razon_social" => "string",
-                "estado"       => "string|in:ACTIVO,INACTIVO",
+                "razon_social" => "string", 
+                "establecimientos" => "nullable|integer",
+                "telefono" => "nullable|string|regex:/[0-9]/|min:11|max:11",      
+                "correo" => "nullable|string|email",
+                "direccion_principal" => "nullable|string|max:1000",               
                 "id_municipio" => "integer",
+                "estado"       => "string|in:ACTIVO,INACTIVO",
             ]);
 
             if ($validator->fails()) {

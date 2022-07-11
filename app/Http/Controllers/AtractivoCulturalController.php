@@ -58,6 +58,7 @@ class AtractivoCulturalController extends Controller
         {
             $validator = Validator::make($request->all(), [
                 "nombre" => "required|string|unique:atractivo_culturals",
+                "direccion" => "nullable|string|max:1000",
                 "estado" => "required|string|in:ACTIVO,INACTIVO",
                 "id_municipio" => "required|integer",
             ]);
@@ -104,6 +105,7 @@ class AtractivoCulturalController extends Controller
         {
             $validator = Validator::make($request->all(), [
                 "nombre" => "string",
+                "direccion" => "nullable|string|max:1000",
                 "estado" => "string|in:ACTIVO,INACTIVO",
                 "id_municipio" => "integer",
             ]);

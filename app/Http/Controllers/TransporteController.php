@@ -60,8 +60,12 @@ class TransporteController extends Controller
         {
             $validator = Validator::make($request->all(), [
                 "razon_social" => "required|string|unique:transportes",
-                "estado"       => "required|string|in:ACTIVO,INACTIVO",
+                "establecimientos" => "nullable|integer",
+                "telefono" => "nullable|string|regex:/[0-9]/|min:11|max:11",      
+                "correo" => "nullable|string|email",
+                "direccion_principal" => "nullable|string|max:1000",
                 "id_municipio" => "required|integer",
+                "estado"       => "required|string|in:ACTIVO,INACTIVO",
             ]);
 
             if ($validator->fails()) {
@@ -109,8 +113,12 @@ class TransporteController extends Controller
         {
             $validator = Validator::make($request->all(), [
                 "razon_social" => "string",
-                "estado"       => "string|in:ACTIVO,INACTIVO",
+                "establecimientos" => "nullable|integer",
+                "telefono" => "nullable|string|regex:/[0-9]/|min:11|max:11",      
+                "correo" => "nullable|string|email",
+                "direccion_principal" => "nullable|string|max:1000",               
                 "id_municipio" => "integer",
+                "estado"       => "string|in:ACTIVO,INACTIVO",
             ]);
 
             if ($validator->fails()) {

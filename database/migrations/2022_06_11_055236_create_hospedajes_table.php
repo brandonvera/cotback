@@ -15,7 +15,7 @@ class CreateHospedajesTable extends Migration
     {
         Schema::create('hospedajes', function (Blueprint $table) {
             $table->id();
-            $table->string('razon_social');
+            $table->string('razon_social')->unique();
             $table->bigInteger('establecimientos')
                   ->nullable();
             $table->string('telefono')->nullable();

@@ -61,6 +61,10 @@ class HospedajesImport implements ToModel, WithHeadingRow, WithValidation, WithB
     {
         return [
             'razon_social' => ['required', 'string', 'unique:hospedajes'],
+            "establecimientos" => "nullable|integer",
+            "telefono" => "nullable|string|regex:/[0-9]/|min:11|max:11",      
+            "correo" => "nullable|string|email",
+            "direccion_principal" => "nullable|string|max:1000",
             'estado'       => ['required', 'string', 'in:ACTIVO,INACTIVO'],
             'municipio' => ['required'],
         ];

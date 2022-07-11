@@ -15,8 +15,8 @@ class CreateRepresentantesTable extends Migration
     {
         Schema::create('representantes', function (Blueprint $table) {
             $table->id();
+            $table->string('codigo')->unique();
             $table->string('persona');
-            // $table->string('apellido');
             $table->string('cargo')->nullable();
             $table->string('telefono')->nullable();
             $table->string('correo')->nullable();

@@ -51,6 +51,7 @@ class CulturalesImport implements ToModel, WithHeadingRow, WithValidation, WithB
     {
         return [
             'nombre'    => ['required', 'string', 'unique:atractivo_culturals'],
+            "direccion" => "nullable|string|max:1000",
             'estado'    => ['required', 'string', 'in:ACTIVO,INACTIVO'],
             'municipio' => ['required'],
         ];

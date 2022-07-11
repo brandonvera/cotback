@@ -15,7 +15,7 @@ class CreateAtractivoNaturalsTable extends Migration
     {
         Schema::create('atractivo_naturals', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
+            $table->string('nombre')->unique();
             $table->LongText('direccion')->nullable();
             $table->string('estado');
             $table->foreignId('usuario_creacion')

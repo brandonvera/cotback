@@ -17,6 +17,7 @@ class UserSeeder extends Seeder
     public function run()
     {
         DB::table('users')->insert([
+            "codigo" => "COD001",
             "nombre" => "Brandon",
             "apellido" => "Vera",
             "email" => "admin@gmail.com",
@@ -25,19 +26,6 @@ class UserSeeder extends Seeder
             "usuario_creacion" => null,
             "usuario_modificacion" => null,
             "id_tipo" => 1,
-            "created_at" => date('Y-m-d H:m:s'),
-            "updated_at" => date('Y-m-d H:m:s'),
-        ]);
-
-        DB::table('users')->insert([
-            "nombre" => "Usuario",
-            "apellido" => "Prueba",
-            "email" => "admin1@gmail.com",
-            "password" => Hash::make('Usuar10#'),
-            "estado" => "ACTIVO",
-            "usuario_creacion" => 1,
-            "usuario_modificacion" => 1,
-            "id_tipo" => 2,
             "created_at" => date('Y-m-d H:m:s'),
             "updated_at" => date('Y-m-d H:m:s'),
         ]);

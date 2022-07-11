@@ -2,6 +2,7 @@
 	<thead>
 		<tr>
 			<th>ID</th>
+			<th>CODIGO</th>
 			<th>NOMBRE</th>
 			<th>APELLIDO</th>
 			<th>CORREO</th>
@@ -18,6 +19,7 @@
 		@foreach ($users as $user)
 			<tr>
 				<td>{{$user->id}}</td>
+				<td>{{$user->codigo}}</td>
 				<td>{{$user->nombre}}</td>
 				<td>{{$user->apellido}}</td>
 				<td>{{$user->email}}</td>

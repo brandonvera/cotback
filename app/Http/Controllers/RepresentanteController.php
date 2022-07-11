@@ -25,7 +25,7 @@ class RepresentanteController extends Controller
                 'UsuarioCreador',
                 'UsuarioModificador'
             )
-            ->Where('persona', 'LIKE', '%'.$this->filtro.'%')
+            ->Where('codigo', 'LIKE', '%'.$this->filtro.'%')
             ->orWhere('estado', 'LIKE', $this->filtro.'%')
             ->get(); 
 
@@ -40,7 +40,11 @@ class RepresentanteController extends Controller
         if($usuario->id == 1)
         {
             $validator = Validator::make($request->all(), [
+                "codigo"   => "required|string|regex:/[COD]/|regex:/[0-9]/|starts_with:COD|min:8|max:8|unique:representantes",
                 "persona" => "required|string",
+                "telefono" => "nullable|string|regex:/[0-9]/|min:11|max:11",
+                "correo" => "nullable|string|email",
+                "direccion" => "nullable|string|max:1000",
                 "estado"  => "required|string|in:ACTIVO,INACTIVO",
             ]);
 
@@ -49,6 +53,7 @@ class RepresentanteController extends Controller
             };
 
             $representante = new Representante();
+            $representante->codigo = $request->codigo;
             $representante->persona = $request->persona;
             $representante->cargo = $request->cargo;
             $representante->telefono = $request->telefono;
@@ -86,7 +91,11 @@ class RepresentanteController extends Controller
         if($usuario->id == 1)
         {
             $validator = Validator::make($request->all(), [
+                "codigo"   => "string|regex:/[COD]/|regex:/[0-9]/|starts_with:COD|min:8|max:8",
                 "persona" => "string",
+                "telefono" => "nullable|string|regex:/[0-9]/|min:11|max:11",
+                "correo" => "nullable|string|email",
+                "direccion" => "nullable|string|max:1000",
                 "estado"  => "string|in:ACTIVO,INACTIVO",
             ]);
 
@@ -95,6 +104,7 @@ class RepresentanteController extends Controller
             };
 
             $representante = Representante::find($id);
+            $representante->codigo = $request->codigo;
             $representante->persona = $request->persona;
             $representante->cargo = $request->cargo;
             $representante->telefono = $request->telefono;

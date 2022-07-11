@@ -10,6 +10,7 @@ class Representante extends Model
     use HasFactory;
 
     protected $fillable = [
+        'codigo',
         'persona', 
         'cargo', 
         'telefono', 

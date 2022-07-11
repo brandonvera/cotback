@@ -22,6 +22,7 @@ class RepresentantesImport implements ToModel, WithHeadingRow, WithValidation, W
     public function model(array $row)
     {
         return new Representante([
+            'codigo'    => $row['codigo'],
             'persona'   => $row['persona'],
             'cargo'     => $row['cargo'],
             'telefono'  => $row['telefono'],
@@ -44,7 +45,11 @@ class RepresentantesImport implements ToModel, WithHeadingRow, WithValidation, W
     public function rules():array
     {
         return [
+            "codigo"    => "required|string|regex:/[COD]/|regex:/[0-9]/|starts_with:COD|min:8|max:8|unique:representantes",
             'persona'   => ['required', 'string'],
+            "telefono"  => "nullable|string|regex:/[0-9]/|min:11|max:11",
+            "correo"    => "nullable|string|email",
+            "direccion" => "nullable|string|max:1000",
             'estado'    => ['required', 'required' ,'string', 'in:ACTIVO,INACTIVO'],
         ];
     }

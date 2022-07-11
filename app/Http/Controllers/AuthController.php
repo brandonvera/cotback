@@ -93,7 +93,7 @@ class AuthController extends Controller
                 'UsuarioCreador',
                 'UsuarioModificador'
             )
-            ->Where('nombre', 'LIKE', '%'.$this->filtro.'%')
+            ->Where('codigo', 'LIKE', '%'.$this->filtro.'%')
             ->orWhere('estado', 'LIKE', $this->filtro.'%')
             ->get();
 
@@ -108,6 +108,7 @@ class AuthController extends Controller
         if($usuario->id == 1)
         {
             $validator = Validator::make($request->all(), [
+                "codigo"   => "required|string|regex:/[COD]/|regex:/[0-9]/|starts_with:COD|min:6|max:6|unique:users",
                 "nombre"   => "required|string|max:100",
                 "apellido" => "required|string|max:100",
                 "email"    => "required|string|email|max:100|unique:users",
@@ -121,6 +122,7 @@ class AuthController extends Controller
             };
 
             $user = new User();
+            $user->codigo = $request->codigo;
             $user->nombre = $request->nombre;
             $user->apellido = $request->apellido;
             $user->email = $request->email;
@@ -158,6 +160,7 @@ class AuthController extends Controller
         if($usuario->id == 1)
         {
             $validator = Validator::make($request->all(), [
+                "codigo"   => "string|regex:/[COD]/|regex:/[0-9]/|starts_with:COD|min:6|max:6",
                 "nombre"   => "string|max:100",
                 "apellido" => "string|max:100",
                 "email"    => "string|email|max:100",
@@ -171,6 +174,7 @@ class AuthController extends Controller
 
             $user = User::find($id);
 
+            $request->codigo == null || $request->codigo == "" ? $user->codigo = $user->codigo : $user->codigo = $request->codigo;
             $request->nombre == null || $request->nombre == "" ? $user->nombre = $user->nombre : $user->nombre = $request->nombre;
             $request->apellido == null || $request->apellido == "" ? $user->apellido = $user->apellido : $user->apellido = $request->apellido;
             $request->email == null || $request->email == "" ? $user->email = $user->email : $user->email = $request->email;
