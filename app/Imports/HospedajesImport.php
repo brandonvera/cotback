@@ -22,7 +22,10 @@ class HospedajesImport implements ToModel, WithHeadingRow, WithValidation, WithB
     public function __construct()
     {
         $this->municipio = Municipio::pluck('id', 'nombre');
-        $this->representante = Representante::pluck('id', 'persona');
+        
+        if(!($this->representante == null || $this->representante == "")){
+           $this->representante = Representante::pluck('id', 'persona'); 
+        }
     }
 
     /**
@@ -59,7 +62,7 @@ class HospedajesImport implements ToModel, WithHeadingRow, WithValidation, WithB
         return [
             'razon_social' => ['required', 'string', 'unique:hospedajes'],
             'estado'       => ['required', 'string', 'in:ACTIVO,INACTIVO'],
-            'id_municipio' => ['required'],
+            'municipio' => ['required'],
         ];
     }
 }

@@ -22,7 +22,10 @@ class RecreacionesImport implements ToModel, WithHeadingRow, WithValidation, Wit
     public function __construct()
     {
         $this->municipio = Municipio::pluck('id', 'nombre');
-        $this->representante = Representante::pluck('id', 'persona');
+        
+        if(!($this->representante == null || $this->representante == "")){
+           $this->representante = Representante::pluck('id', 'persona'); 
+        }
     }
 
     /**
@@ -59,7 +62,7 @@ class RecreacionesImport implements ToModel, WithHeadingRow, WithValidation, Wit
         return [
             'razon_social' => ['required', 'string', 'unique:recreacions'],
             'estado'       => ['required', 'string', 'in:ACTIVO,INACTIVO'],
-            'id_municipio' => ['required'],
+            'municipio' => ['required'],
         ];
     }
 }

@@ -12,9 +12,11 @@ use App\Imports\TransportesImport;
 
 class TransporteController extends Controller
 {
+    private $filtro;
+
     public function index(Request $request, $id)
     {
-        $filtro = $request->buscador;
+        $this->filtro = $request->buscador;
         $usuario = auth()->user();
 
         if($usuario->id == 1)
@@ -24,12 +26,13 @@ class TransporteController extends Controller
                 'UsuarioModificador',
                 'Municipio',
                 'Representante',
-            )->where([ 
-                'id_municipio' => $id
-            ])
-            ->Where('razon_social', 'LIKE', '%'.$filtro.'%')
-            ->orWhere('estado', 'LIKE', $filtro.'%')
-            ->get(); 
+            )
+            ->where('id_municipio', $id)
+            ->where(function ($query) {
+                $query
+                ->where('razon_social', 'LIKE', '%'.$this->filtro.'%')
+                ->orWhere('estado', 'LIKE', $this->filtro.'%');
+            })->get();
 
             return response()->json(compact('transporteTodo'),200);
         }
@@ -43,7 +46,7 @@ class TransporteController extends Controller
             'estado' => 'ACTIVO', 
             'id_municipio' => $id
         ])
-        ->Where('razon_social', 'LIKE', '%'.$filtro.'%')
+        ->Where('razon_social', 'LIKE', '%'.$this->filtro.'%')
         ->get();
 
         return response()->json(compact('transporte'),200);

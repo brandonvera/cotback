@@ -12,10 +12,12 @@ use App\Imports\AlimentosImport;
 
 class AlimentoController extends Controller
 {
+    private $filtro;
+
     public function index(Request $request, $id)
     {  
         $usuario = auth()->user();
-        $filtro = $request->buscador;
+        $this->filtro = $request->buscador;
 
         if($usuario->id == 1)
         {    
@@ -25,12 +27,12 @@ class AlimentoController extends Controller
                 'Municipio',
                 'Representante',
             )
-            ->where([ 
-                'id_municipio' => $id,
-            ])
-            ->where('razon_social', 'LIKE', '%'.$filtro.'%')
-            ->orWhere('estado', 'LIKE', $filtro.'%')
-            ->get();
+            ->where('id_municipio', $id)
+            ->where(function ($query) {
+                $query
+                ->where('razon_social', 'LIKE', '%'.$this->filtro.'%')
+                ->orWhere('estado', 'LIKE', $this->filtro.'%');
+            })->get();
 
             return response()->json(compact('alimentoTodo'),200);
         }

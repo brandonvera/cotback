@@ -52,7 +52,7 @@ class CulturalesImport implements ToModel, WithHeadingRow, WithValidation, WithB
         return [
             'nombre'    => ['required', 'string', 'unique:atractivo_culturals'],
             'estado'    => ['required', 'string', 'in:ACTIVO,INACTIVO'],
-            'id_municipio' => ['required'],
+            'municipio' => ['required'],
         ];
     }
 }

@@ -13,6 +13,7 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
+    private $filtro;
     /**
      * Create a new AuthController instance.
      *
@@ -82,19 +83,18 @@ class AuthController extends Controller
 
     public function index(Request $request) 
     {
+        $this->filtro = $request->buscador;
         $usuario = auth()->user();    
 
         if($usuario->id == 1)
         {
-            $filtro = $request->buscador;
-
             $user = User::with(
                 'TipoUsuario',
                 'UsuarioCreador',
                 'UsuarioModificador'
             )
-            ->Where('nombre', 'LIKE', '%'.$filtro.'%')
-            ->orWhere('estado', 'LIKE', $filtro.'%')
+            ->Where('nombre', 'LIKE', '%'.$this->filtro.'%')
+            ->orWhere('estado', 'LIKE', $this->filtro.'%')
             ->get();
 
             return response()->json(compact('user'), 200);

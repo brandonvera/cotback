@@ -12,9 +12,11 @@ use App\Imports\RepresentantesImport;
 
 class RepresentanteController extends Controller
 {
+    private $filtro;
+
     public function index(Request $request)
     {
-        $filtro = $request->buscador;
+        $this->filtro = $request->buscador;
         $usuario = auth()->user();
 
         if($usuario->id == 1)
@@ -23,8 +25,8 @@ class RepresentanteController extends Controller
                 'UsuarioCreador',
                 'UsuarioModificador'
             )
-            ->Where('persona', 'LIKE', '%'.$filtro.'%')
-            ->orWhere('estado', 'LIKE', $filtro.'%')
+            ->Where('persona', 'LIKE', '%'.$this->filtro.'%')
+            ->orWhere('estado', 'LIKE', $this->filtro.'%')
             ->get(); 
 
             return response()->json(compact('representante'),200);

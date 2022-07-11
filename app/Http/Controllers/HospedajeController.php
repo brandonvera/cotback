@@ -12,9 +12,11 @@ use App\Imports\HospedajesImport;
 
 class HospedajeController extends Controller
 {
+    private $filtro;
+
     public function index(Request $request, $id)
     {
-        $filtro = $request->buscador;
+        $this->filtro = $request->buscador;
         $usuario = auth()->user();
 
         if($usuario->id == 1)
@@ -24,12 +26,13 @@ class HospedajeController extends Controller
                 'UsuarioModificador',
                 'Municipio',
                 'Representante',
-            )->where([ 
-                'id_municipio' => $id
-            ])
-            ->Where('razon_social', 'LIKE', '%'.$filtro.'%')
-            ->orWhere('estado', 'LIKE', $filtro.'%')
-            ->get(); 
+            )
+            ->where('id_municipio', $id)
+            ->where(function ($query) {
+                $query
+                ->where('razon_social', 'LIKE', '%'.$this->filtro.'%')
+                ->orWhere('estado', 'LIKE', $this->filtro.'%');
+            })->get(); 
 
             return response()->json(compact('hospedajeTodo'),200);  
         }

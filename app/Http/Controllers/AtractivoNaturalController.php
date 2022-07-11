@@ -12,10 +12,11 @@ use App\Imports\NaturalesImport;
 
 class AtractivoNaturalController extends Controller
 {
+    private $filtro;
+
     public function index(Request $request, $id)
     {
-        $filtro = $request->buscador;
-
+        $this->filtro = $request->buscador;
         $usuario = auth()->user();
 
         if($usuario->id == 1)
@@ -24,12 +25,13 @@ class AtractivoNaturalController extends Controller
                 'UsuarioCreador',
                 'UsuarioModificador',
                 'Municipio',
-            )->where([ 
-                'id_municipio' => $id
-            ])
-            ->Where('nombre', 'LIKE', '%'.$filtro.'%')
-            ->orWhere('estado', 'LIKE', $filtro.'%')
-            ->get(); 
+            )
+            ->where('id_municipio', $id)
+            ->where(function ($query) {
+                $query
+                ->where('nombre', 'LIKE', '%'.$this->filtro.'%')
+                ->orWhere('estado', 'LIKE', $this->filtro.'%');
+            })->get(); 
 
             return response()->json(compact('naturalTodo'),200); 
         }

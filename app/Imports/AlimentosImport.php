@@ -22,7 +22,10 @@ class AlimentosImport implements ToModel, WithHeadingRow, WithValidation, WithBa
     public function __construct()
     {
         $this->municipio = Municipio::pluck('id', 'nombre');
-        $this->representante = Representante::pluck('id', 'persona');
+        
+        if(!($this->representante == null || $this->representante == "")){
+           $this->representante = Representante::pluck('id', 'persona'); 
+        }
     }
 
     /**
@@ -59,7 +62,7 @@ class AlimentosImport implements ToModel, WithHeadingRow, WithValidation, WithBa
         return [
             'razon_social' => ['required', 'string', 'unique:alimentos'],
             'estado'       => ['required', 'string', 'in:ACTIVO,INACTIVO'],
-            'id_municipio' => ['required'],
+            'municipio' => ['required'],
         ];
     }
 }
