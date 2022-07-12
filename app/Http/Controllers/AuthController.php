@@ -86,7 +86,7 @@ class AuthController extends Controller
         $this->filtro = $request->buscador;
         $usuario = auth()->user();    
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             $user = User::with(
                 'TipoUsuario',
@@ -105,7 +105,7 @@ class AuthController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             $validator = Validator::make($request->all(), [
                 "codigo"   => "required|string|regex:/[COD]/|regex:/[0-9]/|starts_with:COD|min:6|max:6|unique:users",
@@ -141,7 +141,7 @@ class AuthController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             $user = User::with(
                 'TipoUsuario',
@@ -149,7 +149,7 @@ class AuthController extends Controller
                 'UsuarioModificador'
             )->find($id);
 
-            return response()->json(compact('user'), 200);
+            return response()->json(compact('user', 'usuario'), 200);
         }
     }
 
@@ -157,14 +157,14 @@ class AuthController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             $validator = Validator::make($request->all(), [
                 "codigo"   => "string|regex:/[COD]/|regex:/[0-9]/|starts_with:COD|min:6|max:6",
                 "nombre"   => "string|max:100",
                 "apellido" => "string|max:100",
                 "email"    => "string|email|max:100",
-                "estado"   => "string|in:ACTIVO,INACTIVO",
+                "estado"   => "nullable|string|in:ACTIVO,INACTIVO",
                 "id_tipo"  => "integer",
             ]);
 
@@ -179,10 +179,14 @@ class AuthController extends Controller
             $request->apellido == null || $request->apellido == "" ? $user->apellido = $user->apellido : $user->apellido = $request->apellido;
             $request->email == null || $request->email == "" ? $user->email = $user->email : $user->email = $request->email;
             $request->password == null || $request->password == "" ? $user->password = $user->password : $user->password = Hash::make($request->password);
-            $request->estado == null || $request->estado == "" ? $user->estado = "ACTIVO" : $user->estado = $request->estado;
+            if($usuario->id != $id){
+                $request->estado == null || $request->estado == "" ? $user->estado = "ACTIVO" : $user->estado = $request->estado;
+            }
             $request->usuario_creacion == null ? $user->usuario_creacion = $usuario->id : $user->usuario_creacion = $usuario->id;
             $request->usuario_modificacion == null ? $user->usuario_modificacion = $usuario->id : $user->usuario_modificacion = $usuario->id;
-            $request->id_tipo == null ? $user->id_tipo = $user->id_tipo : $user->id_tipo = $request->id_tipo;
+            if($usuario->id != $id){
+                $request->id_tipo == null ? $user->id_tipo = $user->id_tipo : $user->id_tipo = $request->id_tipo;
+            }
             $user->update();
 
             return response()->json(compact('user'),200);
@@ -193,13 +197,20 @@ class AuthController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
-            $usser = User::find($id);
-            $usser->estado = "INACTIVO";
-            $usser->update();
+            if($usuario->id != $id){            
+                $usser = User::find($id);
 
-            return response()->json(compact('usser'), 200);
+                if($usser->id_tipo != 1){
+                    $usser->estado = "INACTIVO";
+                    $usser->update();
+
+                    return response()->json(compact('usser'), 200); 
+                } else {
+                    return response()->json('e', 400);
+                }    
+            }
         }
     }
 
@@ -207,7 +218,7 @@ class AuthController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             return Excel::download(new UsersExport, 'Usuarios.xlsx');  
         }    

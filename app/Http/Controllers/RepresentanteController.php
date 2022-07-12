@@ -19,7 +19,7 @@ class RepresentanteController extends Controller
         $this->filtro = $request->buscador;
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             $representante = Representante::with(
                 'UsuarioCreador',
@@ -37,7 +37,7 @@ class RepresentanteController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             $validator = Validator::make($request->all(), [
                 "codigo"   => "required|string|regex:/[COD]/|regex:/[0-9]/|starts_with:COD|min:8|max:8|unique:representantes",
@@ -73,7 +73,7 @@ class RepresentanteController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             $representante = Representante::with(
                 'UsuarioCreador',
@@ -88,7 +88,7 @@ class RepresentanteController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             $validator = Validator::make($request->all(), [
                 "codigo"   => "string|regex:/[COD]/|regex:/[0-9]/|starts_with:COD|min:8|max:8",
@@ -124,7 +124,7 @@ class RepresentanteController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             $representante = Representante::find($id);
             $representante->estado = 'INACTIVO';
@@ -138,7 +138,7 @@ class RepresentanteController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             return Excel::download(new RepresentantesExport, 'Representantes.xlsx');
         }
@@ -148,7 +148,7 @@ class RepresentanteController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             try 
             {

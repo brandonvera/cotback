@@ -19,7 +19,7 @@ class AtractivoCulturalController extends Controller
         $this->filtro = $request->buscador;
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             $culturalTodo = AtractivoCultural::with(
                 'UsuarioCreador',
@@ -54,7 +54,7 @@ class AtractivoCulturalController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             $validator = Validator::make($request->all(), [
                 "nombre" => "required|string|unique:atractivo_culturals",
@@ -84,7 +84,7 @@ class AtractivoCulturalController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             $cultural = AtractivoCultural::with(
                 'UsuarioCreador',
@@ -101,7 +101,7 @@ class AtractivoCulturalController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             $validator = Validator::make($request->all(), [
                 "nombre" => "string",
@@ -131,7 +131,7 @@ class AtractivoCulturalController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             $cultural = AtractivoCultural::find($id);
             $cultural->estado = 'INACTIVO';
@@ -145,7 +145,7 @@ class AtractivoCulturalController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             return Excel::download(new CulturalesExport, 'AtractivosCulturales.xlsx'); 
         }      
@@ -155,7 +155,7 @@ class AtractivoCulturalController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             try 
             {

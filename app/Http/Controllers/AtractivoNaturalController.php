@@ -19,7 +19,7 @@ class AtractivoNaturalController extends Controller
         $this->filtro = $request->buscador;
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             $naturalTodo = AtractivoNatural::with(
                 'UsuarioCreador',
@@ -54,7 +54,7 @@ class AtractivoNaturalController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             $validator = Validator::make($request->all(), [
                 "nombre" => "required|string|unique:atractivo_naturals",
@@ -84,7 +84,7 @@ class AtractivoNaturalController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             $natural = AtractivoNatural::with(
                 'UsuarioCreador',
@@ -100,7 +100,7 @@ class AtractivoNaturalController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             $validator = Validator::make($request->all(), [
                 "nombre" => "string",
@@ -130,7 +130,7 @@ class AtractivoNaturalController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             $natural = AtractivoNatural::find($id);
             $natural->estado = 'INACTIVO';
@@ -144,7 +144,7 @@ class AtractivoNaturalController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
            return Excel::download(new NaturalesExport, 'AtractivosNaturales.xlsx'); 
         }    
@@ -154,7 +154,7 @@ class AtractivoNaturalController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             try 
             {

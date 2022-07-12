@@ -19,7 +19,7 @@ class TransporteController extends Controller
         $this->filtro = $request->buscador;
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             $transporteTodo = Transporte::with(
                 'UsuarioCreador',
@@ -56,7 +56,7 @@ class TransporteController extends Controller
     { 
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             $validator = Validator::make($request->all(), [
                 "razon_social" => "required|string|unique:transportes",
@@ -92,7 +92,7 @@ class TransporteController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             $transporte = Transporte::with(
                 'UsuarioCreador',
@@ -109,7 +109,7 @@ class TransporteController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             $validator = Validator::make($request->all(), [
                 "razon_social" => "string",
@@ -145,7 +145,7 @@ class TransporteController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             $transporte = Transporte::find($id);
             $transporte->estado = 'INACTIVO';
@@ -159,7 +159,7 @@ class TransporteController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             return Excel::download(new TransportesExport, 'Transportes.xlsx');
         }
@@ -169,7 +169,7 @@ class TransporteController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             try 
             {

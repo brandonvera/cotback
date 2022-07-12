@@ -19,7 +19,7 @@ class RecreacionController extends Controller
         $this->filtro = $request->buscador;
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             $recreacionTodo = Recreacion::with(
                 'UsuarioCreador',
@@ -56,7 +56,7 @@ class RecreacionController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             $validator = Validator::make($request->all(), [
                 "razon_social" => "required|string|unique:recreacions",
@@ -92,7 +92,7 @@ class RecreacionController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             $recreacion = Recreacion::with(
                 'UsuarioCreador',
@@ -109,7 +109,7 @@ class RecreacionController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             $validator = Validator::make($request->all(), [
                 "razon_social" => "string",
@@ -145,7 +145,7 @@ class RecreacionController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             $recreacion = Recreacion::find($id);
             $recreacion->estado = 'INACTIVO';
@@ -159,7 +159,7 @@ class RecreacionController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             return Excel::download(new RecreacionesExport, 'Recreaciones.xlsx');
         }
@@ -169,7 +169,7 @@ class RecreacionController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             try 
             {

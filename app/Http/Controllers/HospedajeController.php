@@ -19,7 +19,7 @@ class HospedajeController extends Controller
         $this->filtro = $request->buscador;
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             $hospedajeTodo = Hospedaje::with(
                 'UsuarioCreador',
@@ -56,7 +56,7 @@ class HospedajeController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             $validator = Validator::make($request->all(), [
                 "razon_social" => "required|string|unique:hospedajes",
@@ -92,7 +92,7 @@ class HospedajeController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             $hospedaje = Hospedaje::with(
                 'UsuarioCreador',
@@ -109,7 +109,7 @@ class HospedajeController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             $validator = Validator::make($request->all(), [
                 "razon_social" => "string",
@@ -145,7 +145,7 @@ class HospedajeController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             $hospedaje = Hospedaje::find($id);
             $hospedaje->estado = 'INACTIVO';
@@ -159,7 +159,7 @@ class HospedajeController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             return Excel::download(new HospedajesExport, 'Hospedajes.xlsx');
         }
@@ -169,7 +169,7 @@ class HospedajeController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             try 
             {
