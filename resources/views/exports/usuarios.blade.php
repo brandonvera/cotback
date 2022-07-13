@@ -25,8 +25,20 @@
 				<td>{{$user->email}}</td>
 				<td>{{$user->password}}</td>
 				<td>{{$user->estado}}</td>
-				<td>{{$user->UsuarioCreador['codigo']}}</td>
-				<td>{{$user->UsuarioModificador['codigo']}}</td>
+				<td>
+					@if ($user->UsuarioCreador !== null)
+						{{$user->UsuarioCreador['codigo']}}
+					@else
+						vacio
+					@endif
+				</td>
+				<td>
+					@if ($user->UsuarioModificador !== null)
+						{{$user->UsuarioModificador['codigo']}}
+					@else
+						vacio
+					@endif					
+				</td>
 				<td>{{$user->TipoUsuario['tipo_usuario']}}</td>
 				<td>{{$user->created_at}}</td>
 				<td>{{$user->updated_at}}</td>

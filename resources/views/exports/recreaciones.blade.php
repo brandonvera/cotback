@@ -26,10 +26,28 @@
 				<td>{{$r->correo}}</td>
 				<td>{{$r->direccion_principal}}</td>
 				<td>{{$r->estado}}</td>
-				<td>{{$r->UsuarioCreador['codigo']}}</td>
-				<td>{{$r->UsuarioModificador['codigo']}}</td>
+				<td>
+					@if ($r->UsuarioCreador !== null)
+						{{$r->UsuarioCreador['codigo']}}
+					@else
+						vacio
+					@endif
+				</td>
+				<td>
+					@if ($r->UsuarioModificador !== null)
+						{{$r->UsuarioModificador['codigo']}}
+					@else
+						vacio
+					@endif					
+				</td>
 				<td>{{$r->Municipio['nombre']}}</td>
-				<td>{{$r->Representante['nombre']}}</td>
+				<td>
+					@if ($r->Representante !== null)
+						{{$r->Representante['codigo']}}
+					@else
+						vacio
+					@endif					
+				</td>
 				<td>{{$r->created_at}}</td>
 				<td>{{$r->updated_at}}</td>
 			</tr>

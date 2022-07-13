@@ -19,8 +19,20 @@
 				<td>{{$n->nombre}}</td>
 				<td>{{$n->direccion}}</td>
 				<td>{{$n->estado}}</td>
-				<td>{{$n->UsuarioCreador['codigo']}}</td>
-				<td>{{$n->UsuarioModificador['codigo']}}</td>
+				<td>
+					@if ($n->UsuarioCreador !== null)
+						{{$n->UsuarioCreador['codigo']}}
+					@else
+						vacio
+					@endif
+				</td>
+				<td>
+					@if ($n->UsuarioModificador !== null)
+						{{$n->UsuarioModificador['codigo']}}
+					@else
+						vacio
+					@endif					
+				</td>
 				<td>{{$n->Municipio['nombre']}}</td>
 				<td>{{$n->created_at}}</td>
 				<td>{{$n->updated_at}}</td>
