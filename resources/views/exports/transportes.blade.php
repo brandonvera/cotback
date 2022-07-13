@@ -26,8 +26,8 @@
 				<td>{{$t->correo}}</td>
 				<td>{{$t->direccion_principal}}</td>
 				<td>{{$t->estado}}</td>
-				<td>{{$t->UsuarioCreador['nombre']}}</td>
-				<td>{{$t->UsuarioModificador['nombre']}}</td>
+				<td>{{$t->UsuarioCreador['codigo']}}</td>
+				<td>{{$t->UsuarioModificador['codigo']}}</td>
 				<td>{{$t->Municipio['nombre']}}</td>
 				<td>{{$t->Representante['nombre']}}</td>
 				<td>{{$t->created_at}}</td>

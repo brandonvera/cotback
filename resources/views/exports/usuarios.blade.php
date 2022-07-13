@@ -25,8 +25,8 @@
 				<td>{{$user->email}}</td>
 				<td>{{$user->password}}</td>
 				<td>{{$user->estado}}</td>
-				<td>{{$user->UsuarioCreador['nombre']}}</td>
-				<td>{{$user->UsuarioModificador['nombre']}}</td>
+				<td>{{$user->UsuarioCreador['codigo']}}</td>
+				<td>{{$user->UsuarioModificador['codigo']}}</td>
 				<td>{{$user->TipoUsuario['tipo_usuario']}}</td>
 				<td>{{$user->created_at}}</td>
 				<td>{{$user->updated_at}}</td>
