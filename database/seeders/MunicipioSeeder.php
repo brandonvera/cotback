@@ -133,7 +133,7 @@ class MunicipioSeeder extends Seeder
         ]);
 
         DB::table('municipios')->insert([
-            "nombre" => "Antonio Rómulo Acosta",
+            "nombre" => "Antonio Rómulo Costa",
             "estado" => "ACTIVO",           
             "usuario_creacion" => 1,
             "usuario_modificacion" => 1,
@@ -232,7 +232,7 @@ class MunicipioSeeder extends Seeder
         ]);
 
         DB::table('municipios')->insert([
-            "nombre" => "Capacho Nuevo",
+            "nombre" => "Independencia",
             "estado" => "ACTIVO",           
             "usuario_creacion" => 1,
             "usuario_modificacion" => 1,
@@ -250,7 +250,7 @@ class MunicipioSeeder extends Seeder
         ]);
 
         DB::table('municipios')->insert([
-            "nombre" => "Capacho Viejo",
+            "nombre" => "Libertad",
             "estado" => "ACTIVO",           
             "usuario_creacion" => 1,
             "usuario_modificacion" => 1,

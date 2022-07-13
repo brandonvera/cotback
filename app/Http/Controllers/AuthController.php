@@ -179,14 +179,22 @@ class AuthController extends Controller
             $request->apellido == null || $request->apellido == "" ? $user->apellido = $user->apellido : $user->apellido = $request->apellido;
             $request->email == null || $request->email == "" ? $user->email = $user->email : $user->email = $request->email;
             $request->password == null || $request->password == "" ? $user->password = $user->password : $user->password = Hash::make($request->password);
+
             if($usuario->id != $id){
-                $request->estado == null || $request->estado == "" ? $user->estado = "ACTIVO" : $user->estado = $request->estado;
+                if($user->id_tipo != 1){
+                    $request->estado == null || $request->estado == "" ? $user->estado = "ACTIVO" : $user->estado = $request->estado;
+                }
             }
+
             $request->usuario_creacion == null ? $user->usuario_creacion = $usuario->id : $user->usuario_creacion = $usuario->id;
             $request->usuario_modificacion == null ? $user->usuario_modificacion = $usuario->id : $user->usuario_modificacion = $usuario->id;
+
             if($usuario->id != $id){
-                $request->id_tipo == null ? $user->id_tipo = $user->id_tipo : $user->id_tipo = $request->id_tipo;
+                if($user->id_tipo != 1){
+                    $request->id_tipo == null ? $user->id_tipo = $user->id_tipo : $user->id_tipo = $request->id_tipo;
+                }
             }
+
             $user->update();
 
             return response()->json(compact('user'),200);
@@ -199,17 +207,25 @@ class AuthController extends Controller
 
         if($usuario->id_tipo == 1)
         {
-            if($usuario->id != $id){            
+            if($usuario->id != $id)
+            {            
                 $usser = User::find($id);
 
-                if($usser->id_tipo != 1){
+                if($usser->id_tipo != 1)
+                {
                     $usser->estado = "INACTIVO";
                     $usser->update();
 
                     return response()->json(compact('usser'), 200); 
-                } else {
+                }
+                else 
+                {
                     return response()->json('e', 400);
                 }    
+            }
+            else 
+            {
+                return response()->json('e', 400);
             }
         }
     }
