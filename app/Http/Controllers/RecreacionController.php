@@ -46,7 +46,7 @@ class RecreacionController extends Controller
             'estado' => 'ACTIVO', 
             'id_municipio' => $id
         ])
-        ->Where('razon_social', 'LIKE', '%'.$filtro.'%')
+        ->Where('razon_social', 'LIKE', '%'.$this->filtro.'%')
         ->get();
 
         return response()->json(compact('recreacion'),200);

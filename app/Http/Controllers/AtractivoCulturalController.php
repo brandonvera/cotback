@@ -44,7 +44,7 @@ class AtractivoCulturalController extends Controller
             'estado' => 'ACTIVO', 
             'id_municipio' => $id
         ])
-        ->where('nombre', 'LIKE', '%'.$filtro.'%')
+        ->where('nombre', 'LIKE', '%'.$this->filtro.'%')
         ->get();
 
         return response()->json(compact('cultural'),200);

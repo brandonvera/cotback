@@ -47,7 +47,7 @@ class AlimentoController extends Controller
             'estado' => 'ACTIVO', 
             'id_municipio' => $id
         ])
-        ->where('razon_social', 'LIKE', '%'.$filtro.'%')
+        ->where('razon_social', 'LIKE', '%'.$this->filtro.'%')
         ->get();
 
         return response()->json(compact('alimento'),200);
