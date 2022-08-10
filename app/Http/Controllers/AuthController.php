@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use App\Events\NuevoUsuarioEvent;
 use App\Http\Controllers\Controller;
 use App\Exports\UsersExport;
 use App\Models\User;
@@ -21,7 +22,6 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
     }
 
     /**
@@ -132,6 +132,8 @@ class AuthController extends Controller
             $request->usuario_modificacion == null ? $user->usuario_modificacion = $usuario->id : $user->usuario_modificacion = $usuario->id;
             $user->id_tipo = $request->id_tipo;
             $user->save();
+
+            event(new NuevoUsuarioEvent($user));
 
             return response()->json(compact('user'),201);
         }

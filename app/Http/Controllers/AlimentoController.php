@@ -19,7 +19,7 @@ class AlimentoController extends Controller
         $usuario = auth()->user();
         $this->filtro = $request->buscador;
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {    
             $alimentoTodo = Alimento::with(
                 'UsuarioCreador',
@@ -57,7 +57,7 @@ class AlimentoController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             $validator = Validator::make($request->all(), [
                 "razon_social" => "required|string|unique:alimentos",
@@ -93,7 +93,7 @@ class AlimentoController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             $alimento = Alimento::with(
                 'UsuarioCreador',
@@ -110,7 +110,7 @@ class AlimentoController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         { 
             $validator = Validator::make($request->all(), [
                 "razon_social" => "string", 
@@ -146,7 +146,7 @@ class AlimentoController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             $alimento = Alimento::find($id);
             $alimento->estado = 'INACTIVO';
@@ -160,7 +160,7 @@ class AlimentoController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             return Excel::download(new AlimentosExport, 'Alimentos.xlsx');
         }
@@ -170,7 +170,7 @@ class AlimentoController extends Controller
     {
         $usuario = auth()->user();
 
-        if($usuario->id == 1)
+        if($usuario->id_tipo == 1)
         {
             try 
             {

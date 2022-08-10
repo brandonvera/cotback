@@ -28,7 +28,6 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-
 Route::group([
 
     'middleware' => ['jwt.verify'],
@@ -59,7 +58,8 @@ Route::group([
     Route::get('rol', [TipoUsuarioController::class, 'index']);
 
 	//rutas de usuario
-    Route::post('login', 'App\Http\Controllers\AuthController@login');
+    Route::post('login', 'App\Http\Controllers\AuthController@login')
+        ->withoutMiddleware(['jwt.verify']);
     Route::post('logout', 'App\Http\Controllers\AuthController@logout');
     Route::post('refresh', 'App\Http\Controllers\AuthControllerr@refresh');
     
