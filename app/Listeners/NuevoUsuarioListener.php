@@ -29,7 +29,14 @@ class NuevoUsuarioListener
      */
     public function handle(NuevoUsuarioEvent $event)
     {
-        $admins = User::Where('id_tipo', 1)->get();
+        $last = User::latest()->first();
+        $cod = $last->codigo;
+
+        $admins = User::where([
+            ['id_tipo', 1],
+            ['estado', 'ACTIVO'],
+            ['codigo', '<>', $cod]
+        ])->get();
 
         Notification::send($admins, new NuevoUsuarioNotification($event->user));
     }

@@ -43,10 +43,9 @@ class NuevoUsuarioNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-                    ->line('Nuevo Usuario Registrado.')
-                    ->action('Ver Usuario', url('https://brandonvera.github.io/cotfront'))
-                    ->line('Corporación Tachirense de Turismo COTATUR 2022');
+        return (new MailMessage)->view(
+            'notification.nuevoUsuario'
+        );
     }
 
     /**
