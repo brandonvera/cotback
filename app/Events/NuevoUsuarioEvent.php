@@ -16,15 +16,17 @@ class NuevoUsuarioEvent
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $user;
+    public $pw;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(User $user)
+    public function __construct(User $user, $pw)
     {
         $this->user = $user;
+        $this->pw = $pw;
     }
 
     /**

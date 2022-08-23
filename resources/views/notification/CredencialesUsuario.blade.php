@@ -19,17 +19,24 @@
   			width="360">
 		  <div class="card-body text-center">
 		    <h5 class="card-title">
-		    	Administrador! 
+		    	Bienvenido {{$usuario['nombre']}}! 
 			</h5>
 		    <p class="card-text">
-		    	Un nuevo usuario ha sido registrado. Da click en el boton de abajo para verificar.
+		    	Has sido registrado para ingresar al sistema, da click en el boton de abajo para ingresar e iniciar sesión.
+		    </p>
+		    <p class="card-text">
+		    	Tus credenciales son:
+		    	<br>
+		    	Correo: <strong>{{$usuario['email']}}</strong>
+		    	<br>
+		    	Contraseña: <strong>{{$pw}}</strong>
 		    </p>
 		    <p class="card-text">
 		    	<a 
 		    		class="btn btn-outline-success" 
 		    		href="https://brandonvera.github.io/cotfront" 
 		    		role="button">
-		    		Dar seguimiento
+		    		Ingresar
 		    	</a>
 		    </p>
 		    <p class="card-text">

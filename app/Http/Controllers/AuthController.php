@@ -126,6 +126,7 @@ class AuthController extends Controller
             $user->nombre = $request->nombre;
             $user->apellido = $request->apellido;
             $user->email = $request->email;
+            $pw = $request->password;
             $user->password = Hash::make($request->password);
             $request->estado == null ? $user->estado = "ACTIVO" : $user->estado = $request->estado;
             $request->usuario_creacion == null ? $user->usuario_creacion = $usuario->id : $user->usuario_creacion = $usuario->id;
@@ -133,7 +134,7 @@ class AuthController extends Controller
             $user->id_tipo = $request->id_tipo;
             $user->save();
 
-            event(new NuevoUsuarioEvent($user));
+            event(new NuevoUsuarioEvent($user, $pw));
 
             return response()->json(compact('user'),201);
         }

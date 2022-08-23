@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Events\NuevoUsuarioEvent;
 use App\Listeners\NuevoUsuarioListener;
+use App\Listeners\CredencialesUsuarioListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -23,6 +24,7 @@ class EventServiceProvider extends ServiceProvider
 
         NuevoUsuarioEvent::class => [
             NuevoUsuarioListener::class,
+            CredencialesUsuarioListener::class,
         ]
     ];
 
